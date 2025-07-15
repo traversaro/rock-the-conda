@@ -122,25 +122,39 @@ def extract_deps_with_cmake(source_dir: Path) -> List[Tuple[str, List[str]]]:
 # 2.  Graph construction & DOT rendering
 # ---------------------------------------------------------------------------
 
+def should_exclude_external_node(node_name: str, include_external: bool) -> bool:
+    """
+    Check if a node should be excluded based on external dependency filtering.
+    
+    Args:
+        node_name: The name of the node/dependency
+        include_external: Whether to include external dependencies
+        
+    Returns:
+        True if the node should be excluded, False otherwise
+    """
+    return not include_external and node_name.startswith('therock-')
+
+
 def build_graph(pairs: List[Tuple[str, List[str]]], include_external: bool = False) -> nx.DiGraph:
     g = nx.DiGraph()
     
     # First pass: add main project nodes (filter external projects too)
     for node, deps in pairs:
         # Skip external projects (starting with 'therock-') unless explicitly included
-        if not include_external and node.startswith('therock-'):
+        if should_exclude_external_node(node, include_external):
             continue
         g.add_node(node)
     
     # Second pass: add edges and dependency nodes
     for node, deps in pairs:
         # Skip external projects (starting with 'therock-') unless explicitly included
-        if not include_external and node.startswith('therock-'):
+        if should_exclude_external_node(node, include_external):
             continue
             
         for d in deps:
             # Skip external dependencies (starting with 'therock-') unless explicitly included
-            if not include_external and d.startswith('therock-'):
+            if should_exclude_external_node(d, include_external):
                 continue
             
             # Add the dependency node if it doesn't exist yet
