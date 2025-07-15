@@ -48,40 +48,36 @@ import yaml
 # 1.  CMake-based dependency extraction
 # ---------------------------------------------------------------------------
 
-def load_project_repo_info(yaml_path: Path) -> Dict[str, str]:
+def load_project_repo_info(yaml_path: Path) -> Dict[str, Dict[str, str]]:
     """
-    Load project to GitHub repository mapping from YAML file.
+    Load project metadata from YAML file.
     
     Args:
-        yaml_path: Path to the YAML file containing project repository mappings
+        yaml_path: Path to the YAML file containing project metadata
         
     Returns:
-        Dictionary mapping project names to their GitHub repository URLs
+        Dictionary mapping project names to their metadata (github_repo, debian_package, conda_forge_feedstock, etc.)
     """
-    project_repo_map = {}
+    project_info_map = {}
     
     if not yaml_path.exists():
         print(f"Warning: Project info file {yaml_path} not found. Repository grouping will be disabled.")
-        return project_repo_map
+        return project_info_map
     
     try:
         with open(yaml_path, 'r') as f:
             data = yaml.safe_load(f)
             
         for project_name, project_info in data.items():
-            if isinstance(project_info, dict) and 'github_repo' in project_info:
-                github_repo = project_info['github_repo']
-                if isinstance(github_repo, list):
-                    # For projects with multiple repos, use the first one as primary
-                    project_repo_map[project_name] = github_repo[0]
-                else:
-                    project_repo_map[project_name] = github_repo
+            if isinstance(project_info, dict):
+                # Store all metadata for the project
+                project_info_map[project_name] = project_info.copy()
                     
     except Exception as e:
         print(f"Warning: Error loading project info from {yaml_path}: {e}")
         
-    print(f"Loaded repository information for {len(project_repo_map)} projects")
-    return project_repo_map
+    print(f"Loaded project information for {len(project_info_map)} projects")
+    return project_info_map
 
 
 def extract_deps_with_cmake(source_dir: Path) -> List[Tuple[str, List[str]]]:
@@ -177,11 +173,11 @@ def should_exclude_external_node(node_name: str, include_external: bool) -> bool
 
 
 def build_graph(pairs: List[Tuple[str, List[str]]], include_external: bool = False, 
-                project_repo_map: Optional[Dict[str, str]] = None) -> nx.DiGraph:
+                project_info_map: Optional[Dict[str, Dict[str, str]]] = None) -> nx.DiGraph:
     g = nx.DiGraph()
     
-    if project_repo_map is None:
-        project_repo_map = {}
+    if project_info_map is None:
+        project_info_map = {}
     
     # First pass: add main project nodes (filter external projects too)
     for node, deps in pairs:
@@ -189,12 +185,24 @@ def build_graph(pairs: List[Tuple[str, List[str]]], include_external: bool = Fal
         if should_exclude_external_node(node, include_external):
             continue
         
+        # Get project information
+        project_info = project_info_map.get(node, {})
+        
         # Determine the repository for this node
-        repo = project_repo_map.get(node, "unknown")
+        github_repo = project_info.get('github_repo', 'unknown')
+        if isinstance(github_repo, list):
+            github_repo = github_repo[0]  # Use first repo as primary
+        
         if node.startswith('therock-'):
             repo = "external"
+        else:
+            repo = github_repo
         
-        g.add_node(node, repository=repo)
+        # Store all project info as node attributes
+        node_attrs = {'repository': repo}
+        node_attrs.update(project_info)
+        
+        g.add_node(node, **node_attrs)
     
     # Second pass: add edges and dependency nodes
     for node, deps in pairs:
@@ -209,11 +217,24 @@ def build_graph(pairs: List[Tuple[str, List[str]]], include_external: bool = Fal
             
             # Add the dependency node if it doesn't exist yet
             if not g.has_node(d):
+                # Get project information for dependency
+                project_info = project_info_map.get(d, {})
+                
                 # Determine the repository for this dependency
-                repo = project_repo_map.get(d, "unknown")
+                github_repo = project_info.get('github_repo', 'unknown')
+                if isinstance(github_repo, list):
+                    github_repo = github_repo[0]  # Use first repo as primary
+                
                 if d.startswith('therock-'):
                     repo = "external"
-                g.add_node(d, repository=repo)
+                else:
+                    repo = github_repo
+                
+                # Store all project info as node attributes
+                node_attrs = {'repository': repo}
+                node_attrs.update(project_info)
+                
+                g.add_node(d, **node_attrs)
             
             # Reverse the edge direction: dependency -> dependent
             # This makes dependencies appear at the top, dependents at the bottom
@@ -224,6 +245,7 @@ def build_graph(pairs: List[Tuple[str, List[str]]], include_external: bool = Fal
 def create_colored_dot_with_subgraphs(g: nx.DiGraph, dot_path: Path) -> None:
     """
     Create a DOT file with repository-based subgraphs and colored backgrounds.
+    Include additional metadata in node labels.
     """
     # Group nodes by repository
     repo_nodes = {}
@@ -243,6 +265,7 @@ def create_colored_dot_with_subgraphs(g: nx.DiGraph, dot_path: Path) -> None:
         'ROCm/rocm_smi_lib': '#FFF0E6',    # Light orange
         'ROCm/rocprofiler-register': '#F0E6FF',  # Light purple
         'ROCm/half': '#E6FFFF',            # Light cyan
+        'https://sourceforge.net/projects/half/': '#E6FFFF',  # Light cyan (same as ROCm/half)
         'ROCm/llvm-project': '#FFFFE6',    # Light yellow
         'ROCm/HIPIFY': '#FFE6F0',          # Light pink
         'ROCm/ROCR-Runtime': '#F0FFE6',    # Light lime
@@ -255,6 +278,23 @@ def create_colored_dot_with_subgraphs(g: nx.DiGraph, dot_path: Path) -> None:
         'ROCm/rocm-libraries': '#F5F5DC',  # Beige for the large math/ML libraries group
         'unknown': '#F0F0F0',              # Light gray for unknown repos
     }
+    
+    def create_node_label(node_name: str, node_attrs: dict) -> str:
+        """Create an enhanced label for a node with additional metadata."""
+        # Start with "therock: " followed by the node name
+        label_parts = [f"therock: {node_name}"]
+        
+        # Add debian package info if available
+        debian_pkg = node_attrs.get('debian_package')
+        if debian_pkg and debian_pkg != 'MISSING':
+            label_parts.append(f"debian: {debian_pkg}")
+        
+        # Always add conda-forge feedstock info, even if MISSING
+        conda_feedstock = node_attrs.get('conda_forge_feedstock', 'MISSING')
+        label_parts.append(f"conda: {conda_feedstock}")
+        
+        # Join all parts with newlines
+        return "\\n".join(label_parts)
     
     lines = ['digraph G {']
     lines.append('\trankdir=TB;')
@@ -276,7 +316,7 @@ def create_colored_dot_with_subgraphs(g: nx.DiGraph, dot_path: Path) -> None:
         elif repo == 'unknown':
             cluster_name = 'Unknown Repository'
         else:
-            cluster_name = repo
+            cluster_name = f"github: {repo}"
             
         lines.append(f'\tsubgraph cluster_{cluster_id} {{')
         lines.append(f'\t\tlabel="{cluster_name}";')
@@ -285,9 +325,11 @@ def create_colored_dot_with_subgraphs(g: nx.DiGraph, dot_path: Path) -> None:
         lines.append(f'\t\tcolor=black;')
         lines.append('')
         
-        # Add nodes to this subgraph
+        # Add nodes to this subgraph with enhanced labels
         for node in nodes:
-            lines.append(f'\t\t"{node}";')
+            node_attrs = g.nodes[node]
+            enhanced_label = create_node_label(node, node_attrs)
+            lines.append(f'\t\t"{node}" [label="{enhanced_label}"];')
         
         lines.append('\t}')
         lines.append('')
@@ -351,7 +393,7 @@ def main() -> None:
     args = ap.parse_args()
 
     # Load project repository mappings
-    project_repo_map = load_project_repo_info(args.project_info)
+    project_info_map = load_project_repo_info(args.project_info)
 
     pairs = extract_deps_with_cmake(args.source_dir)
     
@@ -366,12 +408,9 @@ def main() -> None:
             print(f"Excluding {external_deps} external dependencies (therock-*) from the graph")
             print("Use --include-external to include them")
     
-    g = build_graph(pairs, args.include_external, project_repo_map)
+    g = build_graph(pairs, args.include_external, project_info_map)
 
     render_with_dot(g, args.dot, args.png, args.svg)
-
-    # Create a colored DOT file with subgraphs for each repository
-    create_colored_dot_with_subgraphs(g, Path("the_rock_deps_colored.dot"))
 
 
 if __name__ == "__main__":

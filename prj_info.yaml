@@ -140,3 +140,11 @@ MIOpen:
   github_repo: ROCm/rocm-libraries
   debian_package: miopen-hip
   conda_forge_feedstock: MISSING
+rocFFT:
+  github_repo: ROCm/rocm-libraries
+  debian_package: rocfft
+  conda_forge_feedstock: MISSING
+hipFFT:
+  github_repo: ROCm/rocm-libraries
+  debian_package: hipfft
+  conda_forge_feedstock: MISSING
