@@ -6,6 +6,8 @@ platforms = ["linux-64"]
 version = "0.1.0"
 
 [tasks]
+download-therock-base = "git clone https://github.com/ROCm/TheRock"
+download-therock = { cmd = "git submodule update --init --recursive ./core/HIP", cwd = "TheRock", depends-on = ["download-therock-base"] }
 extract-deps = "python extract_the_rock_deps.py TheRock"
 extract-deps-with-external = "python extract_the_rock_deps.py TheRock --include-external"
 
@@ -18,3 +20,4 @@ cxx-compiler = "*"
 graphviz = "*"
 meson = "*"
 pkg-config = "*"
+pyyaml = "*"

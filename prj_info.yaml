@@ -1,0 +1,142 @@
+rocm-cmake:
+  github_repo: ROCm/rocm-cmake
+  debian_package: rocm-cmake
+  conda_forge_feedstock: rocm-cmake-feedstock
+rocm-core:
+  github_repo: ROCm/rocm-core
+  debian_package: rocm-core
+  conda_forge_feedstock: MISSING
+hip-clr:
+  github_repo: ROCm/clr
+  debian_package: hip-runtime-amd
+  conda_forge_feedstock: hip-feedstock
+rocm_smi_lib:
+  github_repo: ROCm/rocm_smi_lib
+  debian_package: rocm-smi-lib
+  conda_forge_feedstock: rocm-smi-feedstock
+rocprofiler-register:
+  github_repo: ROCm/rocprofiler-register
+  debian_package: rocprofiler-register
+  conda_forge_feedstock: MISSING
+rocm-half:
+  github_repo: https://sourceforge.net/projects/half/
+  debian_package: half
+  conda_forge_feedstock: cpp-half-feedstock
+amd-llvm:
+  github_repo: ROCm/llvm-project
+  debian_package: rocm-device-libs
+  conda_forge_feedstock: rocm-device-libs-feedstock
+amd-comgr:
+  github_repo: ROCm/llvm-project
+  debian_package: comgr
+  conda_forge_feedstock: rocm-comgr-feedstock
+hipcc:
+  github_repo: ROCm/llvm-project
+  debian_package: hipcc
+  conda_forge_feedstock: hipcc-feedstock
+hipify:
+  github_repo: ROCm/HIPIFY
+  debian_package: hipify-clang
+  conda_forge_feedstock: MISSING
+ROCR-Runtime:
+  github_repo: ROCm/ROCR-Runtime
+  debian_package: hsa-rocr
+  conda_forge_feedstock: rocr-runtime-feedstock
+rocminfo:
+  github_repo: ROCm/rocminfo
+  debian_package: rocminfo
+  conda_forge_feedstock: rocminfo-feedstock
+rocprof-trace-decoder:
+  github_repo: ROCm/rocprof-trace-decoder
+  debian_package: MISSING
+  conda_forge_feedstock: MISSING
+aqlprofile:
+  github_repo: ROCm/aqlprofile
+  debian_package: hsa-amd-aqlprofile
+  conda_forge_feedstock: MISSING
+rocprofiler-sdk:
+  github_repo: ROCm/rocprofiler-sdk
+  debian_package: rocprofiler
+  conda_forge_feedstock: MISSING
+roctracer:
+  github_repo: ROCm/roctracer
+  debian_package: roctracer
+  conda_forge_feedstock: MISSING
+rccl:
+  github_repo: ROCm/rccl
+  debian_package: rccl
+  conda_forge_feedstock: MISSING
+rocRAND:
+  github_repo: ROCm/rocm-libraries
+  debian_package: rocrand
+  conda_forge_feedstock: MISSING
+hipRAND:
+  github_repo: ROCm/rocm-libraries
+  debian_package: hiprand
+  conda_forge_feedstock: MISSING
+rocPRIM:
+  github_repo: ROCm/rocm-libraries
+  debian_package: rocprim
+  conda_forge_feedstock: MISSING
+hipCUB:
+  github_repo: ROCm/rocm-libraries
+  debian_package: hipcub
+  conda_forge_feedstock: MISSING
+rocThrust:
+  github_repo: ROCm/rocm-libraries
+  debian_package: rocthrust
+  conda_forge_feedstock: MISSING
+rocFFT:
+  github_repo: ROCm/rocm-libraries
+  conda_forge_feedstock: MISSING
+hipFFT:
+  github_repo: ROCm/rocm-libraries
+  conda_forge_feedstock: MISSING
+mxDataGenerator:
+  github_repo: ROCm/rocm-libraries
+  debian_package: NOT_A_SEPARATE_DEB_PACKAGE
+  conda_forge_feedstock: MISSING
+hipBLAS-common:
+  github_repo: ROCm/rocm-libraries
+  debian_package: hipblas-common
+  conda_forge_feedstock: MISSING
+rocRoller:
+  github_repo: ROCm/rocm-libraries
+  debian_package: rocroller
+  conda_forge_feedstock: MISSING
+hipBLASLt:
+  github_repo: ROCm/rocm-libraries
+  debian_package: hipblaslt
+  conda_forge_feedstock: MISSING
+rocBLAS:
+  github_repo: ROCm/rocm-libraries
+  debian_package: rocblas
+  conda_forge_feedstock: MISSING
+rocSPARSE:
+  github_repo: ROCm/rocm-libraries
+  debian_package: rocsparse
+  conda_forge_feedstock: MISSING
+hipSPARSE:
+  github_repo: ROCm/rocm-libraries
+  debian_package: hipsparse
+  conda_forge_feedstock: MISSING
+rocSOLVER:
+  github_repo: ROCm/rocm-libraries
+  debian_package: rocsolver
+  conda_forge_feedstock: MISSING
+hipSOLVER:
+  github_repo: ROCm/rocm-libraries
+  debian_package: hipsolver
+  conda_forge_feedstock: MISSING
+hipBLAS:
+  github_repo: ROCm/rocm-libraries
+  debian_package: hipblas
+  conda_forge_feedstock: MISSING
+composable_kernel:
+  github_repo: ROCm/rocm-libraries
+  debian_package: composablekernel
+  conda_forge_feedstock: MISSING
+MIOpen:
+  github_repo: ROCm/rocm-libraries
+  debian_package: miopen-hip
+  conda_forge_feedstock: MISSING
