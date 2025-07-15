@@ -1,0 +1,20 @@
+[workspace]
+authors = ["Silvio <silvio.traversaro@iit.it>"]
+channels = ["conda-forge"]
+name = "rocktheconda"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+extract-deps = "python extract_the_rock_deps.py TheRock"
+extract-deps-with-external = "python extract_the_rock_deps.py TheRock --include-external"
+
+[dependencies]
+matplotlib = "*"
+networkx = "*"
+pydot = "*"
+cmake = "*"
+cxx-compiler = "*"
+graphviz = "*"
+meson = "*"
+pkg-config = "*"
