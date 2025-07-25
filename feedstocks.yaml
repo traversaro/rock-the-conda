@@ -1,0 +1,33 @@
+repositories:
+  rocm-cmake:
+    type: git
+    url: https://github.com/conda-forge/rocm-cmake-feedstock.git
+    version: main
+  rocm-devices-libs:
+    type: git
+    url: https://github.com/conda-forge/rocm-device-libs-feedstock.git 
+    version: main
+  rocm-comgr:
+    type: git
+    url: https://github.com/conda-forge/rocm-comgr-feedstock.git
+    version: main
+  hipcc:
+    type: git
+    url: https://github.com/conda-forge/hipcc-feedstock.git
+    version: main
+  rocminfo:
+    type: git
+    url: https://github.com/conda-forge/rocminfo-feedstock.git
+    version: main
+  rocr-runtime:
+    type: git
+    url: https://github.com/conda-forge/rocr-runtime-feedstock.git
+    version: main
+  hip:
+    type: git
+    url: https://github.com/conda-forge/hip-feedstock.git
+    version: main
+  rocm-smi:
+    type: git
+    url: https://github.com/conda-forge/rocm-smi-feedstock.git
+    version: main

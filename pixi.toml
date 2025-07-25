@@ -11,6 +11,19 @@ download-therock = { cmd = "git submodule update --init --recursive ./core/HIP",
 extract-deps = "python extract_the_rock_deps.py TheRock"
 extract-deps-with-external = "python extract_the_rock_deps.py TheRock --include-external"
 
+# New tasks for conda-forge feedstocks
+setup-feedstocks-dir = "mkdir -p feedstocks"
+download-feedstocks = { cmd = "vcs import feedstocks < feedstocks.yaml", depends-on = ["setup-feedstocks-dir"] }
+build-feedstocks = { cmd = "rattler-build build --recipe-dir ./feedstocks", depends-on = ["download-feedstocks"] }
+clean-feedstocks = "rm -rf feedstocks conda-bld"
+feedstocks-info = "python feedstock_info.py"
+feedstocks-status = "python feedstock_info.py status"
+
+# Tasks for building TheRock inside a conda environment with conda compilers
+download-therock-all = { cmd = "python ./build_tools/fetch_sources.py", cwd = "TheRock", depends-on = ["download-therock-base"] }
+configure-therock = { cmd = "cmake -Bbuild -GNinja . -DTHEROCK_AMDGPU_FAMILIES=gfx110X-dgpu", cwd = "TheRock"}
+build-therock = { cmd = "cmake --build build", cwd = "TheRock", depends-on = ["configure-therock"]}
+
 [dependencies]
 matplotlib = "*"
 networkx = "*"
@@ -18,6 +31,31 @@ pydot = "*"
 cmake = "*"
 cxx-compiler = "*"
 graphviz = "*"
-meson = "*"
 pkg-config = "*"
-pyyaml = "*"
+
+vcstool = "*"
+rattler-build = "*"
+
+# commented as it is also a dep from TheRock's requirements.txt, but
+# it is also used by our scripts
+# pyyaml = "*"
+
+
+# deps from https://github.com/ROCm/TheRock/blob/3da875b94df9205656c200ff1f47afe0b25afc2b/requirements.txt
+pyyaml = "6.0.2.*"
+
+cppheaderparser = ">=2.7.4"
+python-build = ">=1.2.2"
+meson = ">=1.7.0"
+setuptools = ">=80.9.0"
+
+# hipBLASLt deps
+joblib = ">=1.4.2"
+msgpack-python = ">=1.1.0"
+
+# AWS Redshift connector
+redshift_connector = "*"
+
+[target.unix.dependencies]
+python-magic = ">=0.4.27"
+
