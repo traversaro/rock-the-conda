@@ -1,21 +1,21 @@
 rocm-cmake:
-  github_repo: ROCm/rocm-cmake
+  github_repo: ROCm/rocm-systems
   debian_package: rocm-cmake
   conda_forge_feedstock: rocm-cmake-feedstock
 rocm-core:
-  github_repo: ROCm/rocm-core
+  github_repo: ROCm/rocm-systems
   debian_package: rocm-core
   conda_forge_feedstock: MISSING
 hip-clr:
-  github_repo: ROCm/clr
+  github_repo: ROCm/rocm-systems
   debian_package: hip-runtime-amd
   conda_forge_feedstock: hip-feedstock
 rocm_smi_lib:
-  github_repo: ROCm/rocm_smi_lib
+  github_repo: ROCm/rocm-systems
   debian_package: rocm-smi-lib
   conda_forge_feedstock: rocm-smi-feedstock
 rocprofiler-register:
-  github_repo: ROCm/rocprofiler-register
+  github_repo: ROCm/rocm-systems
   debian_package: rocprofiler-register
   conda_forge_feedstock: MISSING
 rocm-half:
@@ -33,17 +33,17 @@ amd-comgr:
 hipcc:
   github_repo: ROCm/llvm-project
   debian_package: hipcc
-  conda_forge_feedstock: hipcc-feedstock
+  conda_forge_feedstock: hip-feedstock
 hipify:
   github_repo: ROCm/HIPIFY
   debian_package: hipify-clang
   conda_forge_feedstock: MISSING
 ROCR-Runtime:
-  github_repo: ROCm/ROCR-Runtime
+  github_repo: ROCm/rocm-systems
   debian_package: hsa-rocr
   conda_forge_feedstock: rocr-runtime-feedstock
 rocminfo:
-  github_repo: ROCm/rocminfo
+  github_repo: ROCm/rocm-systems
   debian_package: rocminfo
   conda_forge_feedstock: rocminfo-feedstock
 rocprof-trace-decoder:
@@ -51,15 +51,15 @@ rocprof-trace-decoder:
   debian_package: MISSING
   conda_forge_feedstock: MISSING
 aqlprofile:
-  github_repo: ROCm/aqlprofile
+  github_repo: ROCm/rocm-systems
   debian_package: hsa-amd-aqlprofile
   conda_forge_feedstock: MISSING
 rocprofiler-sdk:
-  github_repo: ROCm/rocprofiler-sdk
+  github_repo: ROCm/rocm-systems
   debian_package: rocprofiler
   conda_forge_feedstock: MISSING
 roctracer:
-  github_repo: ROCm/roctracer
+  github_repo: ROCm/rocm-systems
   debian_package: roctracer
   conda_forge_feedstock: MISSING
 rccl:

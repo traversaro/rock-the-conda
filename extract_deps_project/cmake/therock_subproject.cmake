@@ -39,6 +39,7 @@ function(therock_cmake_subproject_declare PROJECT_NAME)
 
     # Add dummy target to ensure that add_dependencies works fine
     add_custom_target(${PROJECT_NAME})
+    add_custom_target(${PROJECT_NAME}+dist)
 
 endfunction()
 
