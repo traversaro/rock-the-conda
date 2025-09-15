@@ -14,7 +14,16 @@ extract-deps-with-external = "python extract_the_rock_deps.py TheRock --include-
 # New tasks for conda-forge feedstocks
 setup-feedstocks-dir = "mkdir -p feedstocks"
 download-feedstocks = { cmd = "vcs import feedstocks < feedstocks.yaml", depends-on = ["setup-feedstocks-dir"] }
-build-feedstocks = { cmd = "rattler-build build --recipe-dir ./feedstocks", depends-on = ["download-feedstocks"] }
+sync-feedstock-yaml = { cmd = "vcs export --exact feedstocks  > feedstocks.yaml" }
+# Serialize dependency graph manually to avoid conda-build getting confused and permit to mix conda-build and rattler-build
+build-rocm-cmake-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/rocm-cmake -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml" }
+build-rocm-devices-libs-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/rocm-devices-libs -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml" }
+build-rocm-comgr-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/rocm-comgr -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml" }
+build-rocr-runtime-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/rocr-runtime -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml" }
+build-rocminfo-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/rocminfo -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml", depends-on = ["build-rocr-runtime-feedstock"] }
+build-hip-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/hip -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml", depends-on = ["build-rocminfo-feedstock", "build-rocr-runtime-feedstock", "build-rocm-comgr-feedstock"] }
+build-rocm-smi-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/rocm-smi -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml", depends-on = ["build-rocminfo-feedstock", "build-rocr-runtime-feedstock"] }
+build-feedstocks = { cmd = "echo 'All feedstocks build'", depends-on = ["build-rocm-cmake-feedstock", "build-rocm-devices-libs-feedstock", "build-hip-feedstock", "build-rocm-smi-feedstock"] }
 clean-feedstocks = "rm -rf feedstocks conda-bld"
 feedstocks-info = "python feedstock_info.py"
 feedstocks-status = "python feedstock_info.py status"
@@ -33,8 +42,7 @@ cxx-compiler = "*"
 graphviz = "*"
 pkg-config = "*"
 
-vcstool = "*"
-rattler-build = "*"
+vcs2l = "*"
 
 # commented as it is also a dep from TheRock's requirements.txt, but
 # it is also used by our scripts
@@ -55,6 +63,10 @@ msgpack-python = ">=1.1.0"
 
 # AWS Redshift connector
 redshift_connector = "*"
+
+# Deps for building packages
+conda-build = "*"
+rattler-build = "*"
 
 [target.unix.dependencies]
 python-magic = ">=0.4.27"
