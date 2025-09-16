@@ -1,0 +1,2 @@
+export DEVICE_LIB_PATH_CONDA_BACKUP=${DEVICE_LIB_PATH:-}
+export DEVICE_LIB_PATH=$CONDA_PREFIX/lib/amdgcn/bitcode

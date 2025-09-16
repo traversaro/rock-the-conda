@@ -1,0 +1,11 @@
+--- hipcc/amd/hipcc/src/hipBin_amd.h	2025-03-28 17:56:57.226880092 +0000
++++ hipcc/amd/hipcc/src/hipBin_amd.h	2025-03-28 17:57:02.363077370 +0000
+@@ -209,7 +209,7 @@
+     } else {
+       compilerPath = getRoccmPath();
+       hipClangPath = compilerPath;
+-      hipClangPath /= "lib/llvm/bin";
++      hipClangPath /= "bin";
+     }
+ 
+     compilerPath = hipClangPath.string();

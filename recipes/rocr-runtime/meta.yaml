@@ -1,0 +1,51 @@
+{% set name = "rocr-runtime" %}
+{% set version = "6.4.3" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/ROCm/ROCR-Runtime/archive/refs/tags/rocm-{{ version }}.tar.gz
+  sha256: 3b23bed04cbed72304d31d69901eb76afa2099c7ac37f055348dfcda2d25e41a
+
+build:
+  number: 0
+  skip: true  # [not linux]
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ stdlib("c") }}
+    - {{ compiler('cxx') }}
+    - cmake
+    - make
+    - pkg-config
+    # For xxd
+    - vim
+  host:
+    - elfutils
+    - rocm-device-libs {{ version }}
+    - clangdev 20.*
+    - llvmdev  20.*
+    - lld      20.*
+    - numactl
+    - libdrm
+    - zlib
+
+test:
+  commands:
+    - test -f $PREFIX/include/hsa/hsa.h
+    - test -f $PREFIX/lib/libhsa-runtime64.so
+
+about:
+  home: https://github.com/ROCm/ROCR-Runtime
+  license: NCSA
+  license_family: MIT
+  license_file: LICENSE.txt
+  summary: 'ROCm Platform Runtime: ROCr a HPC market enhanced HSA based runtime'
+
+extra:
+  recipe-maintainers:
+    - zklaus
+    - isuruf

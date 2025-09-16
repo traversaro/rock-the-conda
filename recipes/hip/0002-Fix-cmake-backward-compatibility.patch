@@ -1,0 +1,29 @@
+From 62d454acf6b0558f015bacd12acd57141e09a7cf Mon Sep 17 00:00:00 2001
+From: Klaus Zimmermann <klaus.zimmermann@quansight.com>
+Date: Fri, 28 Feb 2025 13:26:53 +0100
+Subject: [PATCH 2/2] Fix cmake backward compatibility
+
+---
+ amd/hipcc/hipcc-backward-compat.cmake | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/amd/hipcc/hipcc-backward-compat.cmake b/amd/hipcc/hipcc-backward-compat.cmake
+index 468f54d176e1..09423aa6ae52 100644
+--- a/amd/hipcc/hipcc-backward-compat.cmake
++++ b/amd/hipcc/hipcc-backward-compat.cmake
+@@ -40,10 +40,10 @@ endfunction()
+ create_binary_symlink()
+ # TODO: Following has to modified if component based installation is required
+ if (NOT WIN32)
+-  install(DIRECTORY ${HIPCC_WRAPPER_BIN_DIR} DESTINATION hip)
+-else()
+   install(DIRECTORY ${HIPCC_WRAPPER_BIN_DIR} DESTINATION hip
+           FILES_MATCHING
+           PATTERN "*"
+           PATTERN "*.bat" EXCLUDE )
++else()
++  install(DIRECTORY ${HIPCC_WRAPPER_BIN_DIR} DESTINATION hip)
+ endif()
+-- 
+2.43.0
+

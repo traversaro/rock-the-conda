@@ -1,9 +1,12 @@
 [workspace]
 authors = ["Silvio <silvio.traversaro@iit.it>"]
-channels = ["conda-forge"]
+channels = ["https://prefix.dev/conda-forge"]
 name = "rocktheconda"
 platforms = ["linux-64", "win-64"]
 version = "0.1.0"
+
+[activation.env]
+CONDA_BUILD_ARGS = "--skip-existing -m $CONDA_PREFIX/conda_build_config.yaml -m ./recipes/conda_build_config.yaml"
 
 [tasks]
 download-therock-base = "git clone https://github.com/ROCm/TheRock"
@@ -11,20 +14,17 @@ download-therock = { cmd = "git submodule update --init ./rocm-systems", cwd = "
 extract-deps = "python extract_the_rock_deps.py TheRock"
 extract-deps-with-external = "python extract_the_rock_deps.py TheRock --include-external"
 
-# New tasks for conda-forge feedstocks
-setup-feedstocks-dir = "mkdir -p feedstocks"
-download-feedstocks = { cmd = "vcs import feedstocks < feedstocks.yaml", depends-on = ["setup-feedstocks-dir"] }
-sync-feedstock-yaml = { cmd = "vcs export --exact feedstocks  > feedstocks.yaml" }
 # Serialize dependency graph manually to avoid conda-build getting confused and permit to mix conda-build and rattler-build
-build-rocm-cmake-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/rocm-cmake -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml" }
-build-rocm-devices-libs-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/rocm-devices-libs -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml" }
-build-rocm-comgr-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/rocm-comgr -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml" }
-build-rocr-runtime-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/rocr-runtime -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml" }
-build-rocminfo-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/rocminfo -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml", depends-on = ["build-rocr-runtime-feedstock"] }
-build-hip-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/hip -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml", depends-on = ["build-rocminfo-feedstock", "build-rocr-runtime-feedstock", "build-rocm-comgr-feedstock"] }
-build-rocm-smi-feedstock = { cmd = "conda-build --skip-existing ./feedstocks/rocm-smi -m ./feedstocks/conda-forge-pinning-feedstock/recipe/conda_build_config.yaml", depends-on = ["build-rocminfo-feedstock", "build-rocr-runtime-feedstock"] }
-build-feedstocks = { cmd = "echo 'All feedstocks build'", depends-on = ["build-rocm-cmake-feedstock", "build-rocm-devices-libs-feedstock", "build-hip-feedstock", "build-rocm-smi-feedstock"] }
-clean-feedstocks = "rm -rf feedstocks conda-bld"
+print-conda-build-args = { cmd = "echo 'CONDA_BUILD_ARGS: '$CONDA_BUILD_ARGS" }
+build-rocm-cmake = { cmd = "conda-build ./recipes/rocm-cmake $CONDA_BUILD_ARGS", depends-on = ["print-conda-build-args"]  }
+build-rocm-devices-libs = { cmd = "conda-build -./recipes/rocm-devices-libs $CONDA_BUILD_ARGS" }
+build-rocm-comgr = { cmd = "conda-build ./recipes/rocm-comgr $CONDA_BUILD_ARGS" }
+build-rocr-runtime = { cmd = "conda-build ./recipes/rocr-runtime $CONDA_BUILD_ARGS" }
+build-rocminfo = { cmd = "conda-build ./recipes/rocminfo $CONDA_BUILD_ARGS", depends-on = ["build-rocr-runtime"] }
+build-hip = { cmd = "conda-build --skip-existing ./recipes/hip -m ./recipes/conda-forge-pinning/recipe/conda_build_config.yaml", depends-on = ["build-rocminfo", "build-rocr-runtime", "build-rocm-comgr"] }
+build-rocm-smi = { cmd = "conda-build --skip-existing ./recipes/rocm-smi -m ./recipes/conda-forge-pinning/recipe/conda_build_config.yaml", depends-on = ["build-rocminfo", "build-rocr-runtime"] }
+build-packages = { cmd = "echo 'All packages build'", depends-on = ["build-rocm-cmake", "build-rocm-devices-libs", "build-hip", "build-rocm-smi"] }
+cleans = "rm -rf feedstocks conda-bld"
 feedstocks-info = "python feedstock_info.py"
 feedstocks-status = "python feedstock_info.py status"
 
@@ -67,6 +67,7 @@ redshift_connector = "*"
 # Deps for building packages
 conda-build = "*"
 rattler-build = "*"
+conda-forge-pinning = "*"
 
 [target.unix.dependencies]
 python-magic = ">=0.4.27"

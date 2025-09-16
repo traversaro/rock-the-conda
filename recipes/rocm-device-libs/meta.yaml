@@ -1,0 +1,47 @@
+{% set name = "rocm-device-libs" %}
+{% set version = "6.4.3" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-{{ version }}.zip
+  sha256: 1e3f2e33dff85b475a11c6d541b9ef5891a5164e75ae59d48392da434ab070f5
+  patches:
+    - patches/0001-Use-a-folder-inside-lib-for-bitcode-instead-of-top-l.patch
+
+build:
+  number: 0
+  skip: true  # [not linux]
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}
+    - cmake <4
+    - make
+  host:
+    - rocm-cmake
+    - zlib
+    - clangdev 20.*
+    - llvmdev 20.*
+    - llvm
+
+test:
+  commands:
+    - test -f $PREFIX/lib/amdgcn/bitcode/hip.bc
+
+about:
+  home: https://github.com/ROCm/ROCm-Device-Libs
+  license: NCSA
+  license_family: MIT
+  license_file: LICENSE.TXT
+  summary: 'ROCm Device libraries'
+
+extra:
+  recipe-maintainers:
+    - isuruf
+    - zklaus
+    - conda-forge/rocm-core

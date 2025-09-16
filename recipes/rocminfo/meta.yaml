@@ -1,0 +1,48 @@
+{% set name = "rocminfo" %}
+{% set version = "6.4.3" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/RadeonOpenCompute/rocminfo/archive/rocm-{{ version }}.tar.gz
+  sha256: 0aa040963daaa2b5ebbec818a2d53c83612912686336160c223fb664dc0ca92b
+
+build:
+  number: 0
+  skip: true  # [not linux]
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ stdlib("c") }}
+    - {{ compiler('cxx') }}
+    - {{ cdt('pciutils-devel') }}
+    - cmake
+    - make
+  host:
+    - numactl
+    - rocr-runtime {{ version }}
+  run:
+    - rocr-runtime {{ version }}
+    - libnuma
+
+test:
+  commands:
+    # Can't run this command without an AMD GPU
+    - test -f $PREFIX/bin/rocminfo
+    - test -f $PREFIX/bin/rocm_agent_enumerator
+    - msg=$($PREFIX/bin/rocminfo 2>&1; test $? -eq 1) && test "$msg" = "$(echo -e '\033[31mROCk module is NOT loaded, possibly no GPU devices\033[0m')"   # [CI]
+
+about:
+  home: https://github.com/ROCm/rocminfo
+  license: NCSA
+  license_family: MIT
+  license_file: License.txt
+  summary: 'ROCm Application for Reporting System Info'
+
+extra:
+  recipe-maintainers:
+    - isuruf
+    - zklaus

@@ -1,0 +1,85 @@
+From 2d8bb8688e5d332537560f01d1b7e9de8cc0e298 Mon Sep 17 00:00:00 2001
+From: Klaus Zimmermann <klaus.zimmermann@quansight.com>
+Date: Fri, 22 Mar 2024 14:55:50 +0100
+Subject: [PATCH] Mark raw strings
+
+---
+ hipamd/src/hip_prof_gen.py | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/hipamd/src/hip_prof_gen.py b/hipamd/src/hip_prof_gen.py
+index 7949d4c2f..edd3992c5 100755
+--- a/hipamd/src/hip_prof_gen.py
++++ b/hipamd/src/hip_prof_gen.py
+@@ -70,8 +70,8 @@ def filtr_api_name(name):
+   return name
+ 
+ def filtr_api_decl(record):
+-  record = re.sub("\s__dparm\([^\)]*\)", r'', record);
+-  record = re.sub("\(void\*\)", r'', record);
++  record = re.sub(r"\s__dparm\([^\)]*\)", r'', record);
++  record = re.sub(r"\(void\*\)", r'', record);
+   return record
+ 
+ # Normalizing API arguments
+@@ -98,7 +98,7 @@ def list_api_args(args_str):
+     for arg_pair in args_str.split(','):
+       if arg_pair == 'void': continue
+       arg_pair = re.sub(r'\s*=\s*\S+$','', arg_pair);
+-      m = re.match("^(.*)\s(\S+)$", arg_pair);
++      m = re.match(r"^(.*)\s(\S+)$", arg_pair);
+       if m:
+         arg_type = norm_api_types(m.group(1))
+         arg_name = m.group(2)
+@@ -142,9 +142,9 @@ def parse_api(inp_file_p, out):
+   global line_num
+   inp_file = inp_file_p
+ 
+-  beg_pattern = re.compile("^(hipError_t|const char\s*\*)\s+([^\(]+)\(");
+-  api_pattern = re.compile("^(hipError_t|const char\s*\*)\s+([^\(]+)\(([^\)]*)\)");
+-  end_pattern = re.compile("Texture");
++  beg_pattern = re.compile(r"^(hipError_t|const char\s*\*)\s+([^\(]+)\(");
++  api_pattern = re.compile(r"^(hipError_t|const char\s*\*)\s+([^\(]+)\(([^\)]*)\)");
++  end_pattern = re.compile(r"Texture");
+   hidden_pattern = re.compile(r'__attribute__\(\(visibility\("hidden"\)\)\)')
+   nms_open_pattern = re.compile(r'namespace hip_impl {')
+   nms_close_pattern = re.compile(r'}')
+@@ -176,7 +176,7 @@ def parse_api(inp_file_p, out):
+         found = 1
+ 
+     if found != 0:
+-      record = re.sub("\s__dparm\([^\)]*\)", '', record);
++      record = re.sub(r"\s__dparm\([^\)]*\)", '', record);
+       m = api_pattern.match(record)
+       if m:
+         found = 0
+@@ -215,13 +215,13 @@ def parse_content(inp_file_p, api_map, out):
+   inp_file = inp_file_p
+ 
+   # API method begin pattern
+-  beg_pattern = re.compile("^(hipError_t|const char\s*\*)\s+[^\(]+\(");
++  beg_pattern = re.compile(r"^(hipError_t|const char\s*\*)\s+[^\(]+\(");
+   # API declaration pattern
+-  decl_pattern = re.compile("^(hipError_t|const char\s*\*)\s+([^\(]+)\(([^\)]*)\)\s*;");
++  decl_pattern = re.compile(r"^(hipError_t|const char\s*\*)\s+([^\(]+)\(([^\)]*)\)\s*;");
+   # API definition pattern
+-  api_pattern = re.compile("^(hipError_t|const char\s*\*)\s+([^\(]+)\(([^\)]*)\)\s*{");
++  api_pattern = re.compile(r"^(hipError_t|const char\s*\*)\s+([^\(]+)\(([^\)]*)\)\s*{");
+   # API init macro pattern
+-  init_pattern = re.compile("(^\s*HIP_INIT_API[^\s]*\s*)\((([^,]+)(,.*|)|)(\);|,)\s*$");
++  init_pattern = re.compile(r"(^\s*HIP_INIT_API[^\s]*\s*)\((([^,]+)(,.*|)|)(\);|,)\s*$");
+ 
+   # Open input file
+   inp = open(inp_file, 'r')
+@@ -645,7 +645,7 @@ if (len(sys.argv) < 4):
+          " ./src ./include/hip/amd_detail/hip_prof_str.h ./include/hip/amd_detail/hip_prof_str.h.new");
+ 
+ # API header file given as an argument
+-src_pat = "\.cpp$"
++src_pat = r"\.cpp$"
+ api_hfile = sys.argv[1]
+ if not os.path.isfile(api_hfile):
+   fatal("input file '" + api_hfile + "' not found")
+-- 
+2.43.0
+

@@ -1,0 +1,48 @@
+{% set name = "rocm-comgr" %}
+{% set version = "6.4.3" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-{{ version }}.tar.gz
+  sha256: 7a484b621d568eef000ee8c4d2d46d589e5682b950f1f410ce7215031f1f3ad7
+
+
+build:
+  number: 0
+  skip: true  # [not linux]
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}
+    - cmake
+    - make
+  host:
+    - clangdev 20.*
+    - llvmdev 20.*
+    - llvm
+    - lld
+    - zlib
+    - zstd
+    - rocm-device-libs
+    - rocm-cmake  {{ version }}
+
+test:
+  commands:
+    - test -f $PREFIX/include/amd_comgr/amd_comgr.h
+    - test -f $PREFIX/lib/libamd_comgr.so
+
+about:
+  home: https://github.com/ROCm/llvm-project/tree/amd-staging/amd/comgr
+  license: NCSA
+  license_file: amd/comgr/LICENSE.txt
+  summary: 'ROCm Code Object Manager'
+
+extra:
+  recipe-maintainers:
+    - zklaus
+    - isuruf

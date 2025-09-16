@@ -35,30 +35,17 @@ pixi run build-therock
 As a playground for official conda-forge PRs, this repo contains a way to build conda-forge feedstocks for ROCm packages:
 
 ~~~bash
-# Show information about configured feedstocks
-pixi run feedstocks-info
-
-# Download all feedstock repositories
-pixi run download-feedstocks
-
-# Check status of downloaded feedstocks
-pixi run feedstocks-status
-
-# Build all feedstocks with rattler-build
 pixi run build-feedstocks
-
-# Clean up downloaded feedstocks and build artifacts
-pixi run clean-feedstocks
 ~~~
 
-The feedstocks to build are configured in `conda_superbuild/ws.yaml` and include:
-- rocm-cmake
-- rocm-devices-libs
-- rocm-comgr
-- hipcc
-- rocm-info
-- rocm-rocr-runtime
-- hip
-- rocm-smi
+
+The feedstocks to build are configured in `feedstocks.yaml` and build in order the following feedstocks:
+- `rocm-cmake`
+- `rocm-devices-libs`
+- `rocm-comgr`
+- `rocr-runtime`
+- `rocminfo`
+- `hip`
+- `rocm-smi`
 
 Built packages will be placed in the `conda-bld/` directory.

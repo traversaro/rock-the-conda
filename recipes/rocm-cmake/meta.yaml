@@ -1,0 +1,39 @@
+{% set name = "rocm-cmake" %}
+{% set version = "6.4.3" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/ROCm/rocm-cmake/archive/refs/tags/rocm-{{ version }}.tar.gz
+  sha256: a2a29d5d5b6fcf01af8a662c2453c8c1bfc647fbcbfcbe86fc87d6af17287d24
+
+build:
+  number: 0
+  skip: true  # [not linux]
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ stdlib("c") }}
+    - {{ compiler('cxx') }}
+    - cmake
+    - make
+  host:
+  run:
+
+test:
+  commands:
+    - test -f $PREFIX/share/rocm/cmake/ROCMConfig.cmake
+
+about:
+  home: https://github.com/ROCm/rocm-cmake
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  summary: 'Rocm cmake modules'
+
+extra:
+  recipe-maintainers:
+    - isuruf
