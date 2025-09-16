@@ -3,6 +3,6 @@ c_compiler:
 cxx_compiler:
     - clangxx
 c_compiler_version:
-    - 19
+    - 20
 cxx_compiler_version:
-    - 19
+    - 20
