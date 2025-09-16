@@ -35,11 +35,11 @@ pixi run build-therock
 As a playground for official conda-forge PRs, this repo contains a way to build conda-forge feedstocks for ROCm packages:
 
 ~~~bash
-pixi run build-feedstocks
+pixi run build-packages
 ~~~
 
 
-The feedstocks to build are configured in `feedstocks.yaml` and build in order the following feedstocks:
+The recipe to build are configured in `recipes` folder and build in order the following feedstocks:
 - `rocm-cmake`
 - `rocm-devices-libs`
 - `rocm-comgr`
