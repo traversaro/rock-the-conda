@@ -24,5 +24,8 @@ jobs:
     - name: Print pixi info
       run: pixi info
 
+    - name: Remove local condarc
+      run: rm -f $HOME/.condarc
+
     - name: Build packages
       run: pixi run build-packages

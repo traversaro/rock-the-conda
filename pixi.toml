@@ -6,7 +6,7 @@ platforms = ["linux-64", "win-64"]
 version = "0.1.0"
 
 [activation.env]
-CONDA_BUILD_ARGS = "--skip-existing -m $CONDA_PREFIX/conda_build_config.yaml -m ./recipes/conda_build_config.yaml"
+CONDA_BUILD_ARGS = "-c conda-forge --skip-existing -m $CONDA_PREFIX/conda_build_config.yaml -m ./recipes/conda_build_config.yaml"
 
 [tasks]
 download-therock-base = "git clone https://github.com/ROCm/TheRock"
@@ -16,17 +16,16 @@ extract-deps-with-external = "python extract_the_rock_deps.py TheRock --include-
 
 # Serialize dependency graph manually to avoid conda-build getting confused and permit to mix conda-build and rattler-build
 print-conda-build-args = { cmd = "echo 'CONDA_BUILD_ARGS: '$CONDA_BUILD_ARGS" }
-build-rocm-cmake = { cmd = "conda-build ./recipes/rocm-cmake $CONDA_BUILD_ARGS", depends-on = ["print-conda-build-args"]  }
-build-rocm-devices-libs = { cmd = "conda-build -./recipes/rocm-devices-libs $CONDA_BUILD_ARGS" }
+build-rocm-cmake = { cmd = "conda-build $CONDA_BUILD_ARGS ./recipes/rocm-cmake", depends-on = ["print-conda-build-args"]  }
+build-rocm-devices-libs = { cmd = "conda-build ./recipes/rocm-device-libs $CONDA_BUILD_ARGS" }
 build-rocm-comgr = { cmd = "conda-build ./recipes/rocm-comgr $CONDA_BUILD_ARGS" }
 build-rocr-runtime = { cmd = "conda-build ./recipes/rocr-runtime $CONDA_BUILD_ARGS" }
 build-rocminfo = { cmd = "conda-build ./recipes/rocminfo $CONDA_BUILD_ARGS", depends-on = ["build-rocr-runtime"] }
-build-hip = { cmd = "conda-build --skip-existing ./recipes/hip -m ./recipes/conda-forge-pinning/recipe/conda_build_config.yaml", depends-on = ["build-rocminfo", "build-rocr-runtime", "build-rocm-comgr"] }
-build-rocm-smi = { cmd = "conda-build --skip-existing ./recipes/rocm-smi -m ./recipes/conda-forge-pinning/recipe/conda_build_config.yaml", depends-on = ["build-rocminfo", "build-rocr-runtime"] }
+build-hip = { cmd = "conda-build ./recipes/hip $CONDA_BUILD_ARGS", depends-on = ["build-rocminfo", "build-rocr-runtime", "build-rocm-comgr"] }
+build-rocm-smi = { cmd = "conda-build ./recipes/rocm-smi $CONDA_BUILD_ARGS", depends-on = ["build-rocminfo", "build-rocr-runtime"] }
 build-packages = { cmd = "echo 'All packages build'", depends-on = ["build-rocm-cmake", "build-rocm-devices-libs", "build-hip", "build-rocm-smi"] }
-cleans = "rm -rf feedstocks conda-bld"
-feedstocks-info = "python feedstock_info.py"
-feedstocks-status = "python feedstock_info.py status"
+clean = "rm -rf feedstocks conda-bld"
+
 
 # Tasks for building TheRock inside a conda environment with conda compilers
 download-therock-all = { cmd = "python ./build_tools/fetch_sources.py", cwd = "TheRock", depends-on = ["download-therock-base"] }
