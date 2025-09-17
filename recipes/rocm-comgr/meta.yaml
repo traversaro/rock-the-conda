@@ -1,5 +1,5 @@
 {% set name = "rocm-comgr" %}
-{% set version = "6.4.3" %}
+{% set version = "7.0.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-{{ version }}.tar.gz
-  sha256: 7a484b621d568eef000ee8c4d2d46d589e5682b950f1f410ce7215031f1f3ad7
+  sha256: 3d479a2aa615b6bb35cd3521122fbff34188dc0cc52d8b0acda59f9f55198211
 
 
 build:
