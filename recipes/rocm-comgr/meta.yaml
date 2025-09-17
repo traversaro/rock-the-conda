@@ -9,7 +9,7 @@ source:
   url: https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-{{ version }}.tar.gz
   sha256: 3d479a2aa615b6bb35cd3521122fbff34188dc0cc52d8b0acda59f9f55198211
   patches:
-    - fix-build-upstream-llvm-20.patch
+    - patches/fix-build-upstream-llvm-20.patch
 
 build:
   number: 0
@@ -29,7 +29,7 @@ requirements:
     - lld
     - zlib
     - zstd
-    - rocm-device-libs
+    - rocm-device-libs  {{ version }}
     - rocm-cmake  {{ version }}
 
 test:
