@@ -6,7 +6,7 @@ platforms = ["linux-64", "win-64"]
 version = "0.1.0"
 
 [activation.env]
-CONDA_BUILD_ARGS = "-c conda-forge -m $CONDA_PREFIX/conda_build_config.yaml -m ./recipes/conda_build_config.yaml --output-folder ./output"
+CONDA_BUILD_ARGS = "-c conda-forge -c local -m $CONDA_PREFIX/conda_build_config.yaml -m ./recipes/conda_build_config.yaml --output-folder ./output"
 RATTLER_BUILD_ARGS = "-m $CONDA_PREFIX/conda_build_config.yaml -m ./recipes/conda_build_config.yaml "
 
 
