@@ -17,7 +17,7 @@ pushd clr
 mkdir build
 cd build
 
-export CXXFLAGS="$CXXFLAGS -I$SRC_DIR/clr/opencl/khronos/headers/opencl2.2/"
+export CXXFLAGS="$CXXFLAGS -I$SRC_DIR/clr/opencl/khronos/headers/opencl2.2/CL"
 
 install $SRC_DIR/clr/rocclr/platform/prof_protocol.h $PREFIX/include
 
