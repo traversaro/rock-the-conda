@@ -12,6 +12,8 @@ cmake \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_LIBDIR=lib \
+  -DBUILD_TESTING:BOOL=OFF \
+  -G "Unix Makefiles" \
   ..
 
 make VERBOSE=1 -j${CPU_COUNT}
