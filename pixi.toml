@@ -24,7 +24,8 @@ build-rocm-devices-libs = { cmd = "conda-build ./recipes/rocm-device-libs $CONDA
 build-rocm-comgr = { cmd = "conda-build ./recipes/rocm-comgr $CONDA_BUILD_ARGS" }
 build-rocr-runtime = { cmd = "conda-build ./recipes/rocr-runtime $CONDA_BUILD_ARGS" }
 build-rocminfo = { cmd = "conda-build ./recipes/rocminfo $CONDA_BUILD_ARGS", depends-on = ["build-rocr-runtime"] }
-build-hip = { cmd = "conda-build ./recipes/hip $CONDA_BUILD_ARGS", depends-on = ["build-rocminfo", "build-rocr-runtime", "build-rocm-comgr"] }
+build-hip-no-deps = { cmd = "conda-build ./recipes/hip $CONDA_BUILD_ARGS" }
+build-hip = { cmd = "echo done", depends-on = ["build-hip-nodeps", "build-rocminfo", "build-rocr-runtime", "build-rocm-comgr"] }
 build-rocm-smi = { cmd = "conda-build ./recipes/rocm-smi $CONDA_BUILD_ARGS", depends-on = ["build-rocminfo", "build-rocr-runtime"] }
 build-packages = { cmd = "echo 'All packages build'", depends-on = ["build-rocm-core", "build-rocm-cmake", "build-rocm-devices-libs", "build-hip", "build-rocm-smi"] }
 clean = "rm -rf feedstocks conda-bld"
