@@ -21,7 +21,8 @@ requirements:
     - ${{ compiler('c') }}
     - ${{ stdlib('c') }}
     - ${{ compiler('cxx') }}
-    - cmake
+    # Workaround for rocroller bug, remove in the future
+    - cmake<4
     - pkg-config
     - ninja
   host:
@@ -31,12 +32,26 @@ requirements:
     - hip-devel ${{ version }}.*
     - hipblas-common ${{ version }}.*
     - rocm-device-libs ${{ version }}.*
+    - roctracer
+    - clangdev 20.*
+    - llvmdev 20.*
     # Needed for tensilite
     - python ${{ python_min }}.*
     - pip
     - setuptools
     - msgpack-cxx
     - libboost-devel
+    - msgpack-python
+    - joblib
+    - pyyaml
+    - packaging
+    - rocm-smi
+    # Needed for rocroller
+    - spdlog
+    - lld 20.*
+    - zlib
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound='x.x') }}
 
 tests:
   - requirements:

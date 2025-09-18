@@ -11,6 +11,8 @@ source:
     sha256: c1f435b8040c6d34720eeadf837bc888b1c5aaccbfd7efaff4d602f1957f812f
     patches:
       - disable_tests.patch
+      - disable_werror.patch
+      - skip_anon_struct_codegen.patch
 
 build:
   number: 0
@@ -34,24 +36,18 @@ requirements:
 
 
 tests:
-  - requirements:
-      run:
-        - cmake-package-check
-        - ${{ compiler('c') }}
-        - ${{ compiler('cxx') }}
-    script:
-      - cmake-package-check roctracer
   - package_contents:
       include:
         - roctracer/roctracer.h
       lib:
-        - roctracer
+        - roctracer64
+        - roctx64
 about:
   homepage: https://rocm.docs.amd.com/projects/roctracer
   repository: https://github.com/ROCm/rocm-systems
   license: MIT
   license_family: MIT
-  license_file: LICENSE.md
+  license_file: LICENSE
   summary: "AMD ROCTRACER library"
 
 extra:

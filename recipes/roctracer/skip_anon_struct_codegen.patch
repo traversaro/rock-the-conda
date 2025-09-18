@@ -1,0 +1,22 @@
+From 7a259be1192f75bdd8ae16b1b56e02f6eb3f3dc6 Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio@traversaro.it>
+Date: Thu, 18 Sep 2025 10:16:53 +0200
+Subject: [PATCH] Skip anonymous structs in ostream operator overload
+
+---
+ script/gen_ostream_ops.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/script/gen_ostream_ops.py b/script/gen_ostream_ops.py
+index dcc9914..8faeeb5 100755
+--- a/script/gen_ostream_ops.py
++++ b/script/gen_ostream_ops.py
+@@ -234,7 +234,7 @@ def gen_cppheader(infilepath, outfilepath, rank):
+             del cppHeader.classes[c]
+ 
+     for c in cppHeader.classes:
+-        if c[-2] == ':' and c[-1] == ':': continue #ostream operator cannot be overloaded for anonymous struct therefore it is skipped
++        if (c[-2] == ':' and c[-1] == ':') or (c.startswith("<anon-struct")): continue #ostream operator cannot be overloaded for anonymous struct therefore it is skipped
+         if "::union" in c:
+             continue
+         if c in structs_analyzed:
