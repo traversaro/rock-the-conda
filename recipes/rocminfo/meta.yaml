@@ -23,6 +23,7 @@ requirements:
     - make
   host:
     - numactl
+    - rocm-core
     - rocr-runtime {{ version }}
   run:
     - rocr-runtime {{ version }}

@@ -25,6 +25,7 @@ requirements:
     - make
   host:
     - libdrm
+    - rocm-core
   run:
 
 test:

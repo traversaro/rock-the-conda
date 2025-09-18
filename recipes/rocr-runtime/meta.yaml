@@ -32,6 +32,7 @@ requirements:
     - numactl
     - libdrm
     - zlib
+    - rocm-core
 
 test:
   commands:

@@ -51,6 +51,7 @@ requirements:
     - numactl
     - llvmdev 20.*
     - ocl-icd
+    - rocm-core
     - rocm-comgr {{ major_minor_version }}.*
     - rocr-runtime {{ major_minor_version }}.*
     - rocm-cmake {{ major_minor_version }}.*
@@ -66,6 +67,7 @@ outputs:
         - {{ compiler('cxx') }}
       host:
         - numactl
+        - rocm-core
         - rocm-comgr {{ major_minor_version }}.*
         - rocr-runtime {{ major_minor_version }}.*
       run:
@@ -125,6 +127,7 @@ outputs:
         - llvm-tools
         - perl
         - python *
+        - rocm-core
         - rocminfo {{ major_minor_version }}.*
     files:
       - bin/hipcc
@@ -147,6 +150,7 @@ outputs:
         - {{ compiler('cxx') }}
       host:
         - numactl
+        - rocm-core
         - rocm-comgr {{ version }}
         - rocr-runtime {{ version }}
       run:

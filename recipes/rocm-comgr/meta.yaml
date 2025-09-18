@@ -29,6 +29,7 @@ requirements:
     - lld
     - zlib
     - zstd
+    - rocm-core
     - rocm-device-libs  {{ version }}
     - rocm-cmake  {{ version }}
 
