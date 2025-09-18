@@ -1,0 +1,59 @@
+context:
+  name: roctracer
+  version: "7.0.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  - url: "https://github.com/ROCm/roctracer/archive/refs/tags/rocm-${{ version }}.tar.gz"
+    sha256: c1f435b8040c6d34720eeadf837bc888b1c5aaccbfd7efaff4d602f1957f812f
+    patches:
+      - disable_tests.patch
+
+build:
+  number: 0
+  skip: not linux
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ${{ compiler('cxx') }}
+    - cmake
+    - pkg-config
+    - ninja
+  host:
+    - rocm-core
+    - hip-devel ${{ version }}.*
+    - hipcc ${{ version }}.*
+    - rocm-device-libs ${{ version }}.*
+    - cppheaderparser
+
+
+
+tests:
+  - requirements:
+      run:
+        - cmake-package-check
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+    script:
+      - cmake-package-check roctracer
+  - package_contents:
+      include:
+        - roctracer/roctracer.h
+      lib:
+        - roctracer
+about:
+  homepage: https://rocm.docs.amd.com/projects/roctracer
+  repository: https://github.com/ROCm/rocm-systems
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE.md
+  summary: "AMD ROCTRACER library"
+
+extra:
+  recipe-maintainers:
+    - traversaro

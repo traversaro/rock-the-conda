@@ -1,0 +1,22 @@
+From fb7ac8e899802d4011f0aa341334ba5da0db40dd Mon Sep 17 00:00:00 2001
+From: Silvio Traversaro <silvio@traversaro.it>
+Date: Wed, 17 Sep 2025 16:28:22 +0200
+Subject: [PATCH] Disable tests
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 248ddd8..f7bd2d2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -62,7 +62,7 @@ add_subdirectory(src)
+ 
+ ## Build tests
+ if(${LIBRARY_TYPE} STREQUAL SHARED)
+-  add_subdirectory(test)
++  #add_subdirectory(test)
+ endif()
+ 
+ ## Build Plugins

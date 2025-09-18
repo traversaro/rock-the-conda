@@ -21,6 +21,8 @@ requirements:
     - ${{ compiler('cxx') }}
     - cmake
     - ninja
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound='x.x') }}
 
 tests:
   - requirements:

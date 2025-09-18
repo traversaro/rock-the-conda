@@ -21,8 +21,10 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - cmake
+    - pkg-config
     - make
   host:
+    - libdrm
   run:
 
 test:

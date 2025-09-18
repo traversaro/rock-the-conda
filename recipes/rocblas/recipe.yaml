@@ -1,0 +1,52 @@
+context:
+  name: rocblas
+  version: "7.0.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  - url: "https://github.com/ROCm/hipBLAS-common/archive/refs/tags/rocm-${{ version }}.tar.gz"
+    sha256: a20e4770a5758e931b7a79c5e0f2a061a1b11195217f74d512cdc764124fc564
+
+build:
+  number: 0
+  skip: not linux
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ${{ compiler('cxx') }}
+    - cmake
+    - pkg-config
+    - ninja
+  host:
+    - rocm-core
+    - rocm-cmake ${{ version }}.*
+    - hipblas-common ${{ version }}.*
+    - hipblaslt ${{ version }}.*
+
+tests:
+  - requirements:
+      run:
+        - cmake-package-check
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+    script:
+      - cmake-package-check hipblas-common
+  - package_contents:
+      include:
+        - hipblas-common/hipblas-common.h
+
+about:
+  homepage: https://github.com/ROCm/rocm-libraries
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE.md
+  summary: "hipBLAS-common is a header-only library that provides common files for hipBLAS and hipBLASLt."
+
+extra:
+  recipe-maintainers:
+    - traversaro

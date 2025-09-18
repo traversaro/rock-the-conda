@@ -1,0 +1,64 @@
+context:
+  name: hipblaslt
+  version: "7.0.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  - url: "https://github.com/ROCm/hipBLASlt/archive/refs/tags/rocm-${{ version }}.tar.gz"
+    sha256: 9a38822eea27080dbeab7dd9d39b4bdaeb7c25bc5d19ca6ccf24674c3b34dbae
+    patches:
+      - fix_latest_msgpack_cxx.patch
+
+build:
+  number: 0
+  skip: not linux
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ${{ compiler('cxx') }}
+    - cmake
+    - pkg-config
+    - ninja
+  host:
+    - rocm-core
+    - rocm-cmake ${{ version }}.*
+    - hipcc ${{ version }}.*
+    - hip-devel ${{ version }}.*
+    - hipblas-common ${{ version }}.*
+    - rocm-device-libs ${{ version }}.*
+    # Needed for tensilite
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+    - msgpack-cxx
+    - libboost-devel
+
+tests:
+  - requirements:
+      run:
+        - cmake-package-check
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+    script:
+      - cmake-package-check hipblaslt
+  - package_contents:
+      include:
+        - hipblaslt/hipblaslt.h
+      lib:
+        - hipblaslt
+about:
+  homepage: https://rocm.docs.amd.com/projects/hipBLASLt
+  repository: https://github.com/ROCm/rocm-libraries
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE.md
+  summary: "HIP library for GEMM operations with extended functionality"
+
+extra:
+  recipe-maintainers:
+    - traversaro
