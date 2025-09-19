@@ -5,11 +5,6 @@ set -xeuo pipefail
 export ROCM_LIBPATCH_VERSION=${PKG_VERSION//\./0}
 export HIP_CLANG_PATH=${PREFIX}/bin
 
-# Workaround for https://github.com/conda-forge/clangdev-feedstock/issues/384
-wget https://raw.githubusercontent.com/jmmartinez/llvm-project/71d1ca33e843c8b9e01f1a29a697691e50a68d6c/clang/lib/Headers/cuda_wrappers/bits/c%2B%2Bconfig.h
-cp ./c++config.h $PREFIX/lib/clang/20/include/cuda_wrappers/bits/c++config.h
-rm -rf ./c++config.h
-
 pushd hipcc/amd/hipcc
 mkdir build
 cd build
