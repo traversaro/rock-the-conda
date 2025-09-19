@@ -27,7 +27,7 @@ requirements:
     - pkg-config
     - ninja
   host:
-    - rocm-core
+    - rocm-core ${{ version }}.*
     - hip-devel ${{ version }}.*
     - hipcc ${{ version }}.*
     - rocm-device-libs ${{ version }}.*

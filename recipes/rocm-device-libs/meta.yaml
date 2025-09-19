@@ -23,7 +23,7 @@ requirements:
     - cmake <4
     - make
   host:
-    - rocm-core
+    - rocm-core {{ version }}
     - rocm-cmake
     - zlib
     - clangdev 20.*

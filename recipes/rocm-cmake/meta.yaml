@@ -21,7 +21,7 @@ requirements:
     - cmake
     - make
   host:
-    - rocm-core
+    - rocm-core {{ version }}
   run:
 
 test:
