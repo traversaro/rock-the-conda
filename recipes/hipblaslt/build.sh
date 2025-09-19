@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export HIP_DEVICE_LIB_PATH=$PREFIX/lib/amdgcn/bitcode
+
 # A lot of part of the build system hardcode amdclang++ as compiler, let's temporary
 # add a symlink with this name
 ln -sf -- "$CXX" "$PREFIX/bin/amdclang++"
