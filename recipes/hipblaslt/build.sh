@@ -1,6 +1,8 @@
 #!/bin/bash
 
 export HIP_DEVICE_LIB_PATH=$PREFIX/lib/amdgcn/bitcode
+# Workaround for https://github.com/traversaro/rock-the-conda/issues/3#issuecomment-3314729588
+export ROCM_PATH=$PREFIX
 
 # A lot of part of the build system hardcode amdclang++ as compiler, let's temporary
 # add a symlink with this name
