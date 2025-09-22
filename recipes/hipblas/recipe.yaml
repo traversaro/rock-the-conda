@@ -19,6 +19,8 @@ requirements:
     - ${{ compiler('c') }}
     - ${{ stdlib('c') }}
     - ${{ compiler('cxx') }}
+    # Note: fortran is only required on Linux
+    - ${{ compiler('fortran') }}
     - cmake
     - pkg-config
     - ninja
