@@ -7,11 +7,11 @@ package:
   version: ${{ version }}
 
 source:
-  - url: "https://github.com/ROCm/hipBLAS-common/archive/refs/tags/rocm-${{ version }}.tar.gz"
-    sha256: a20e4770a5758e931b7a79c5e0f2a061a1b11195217f74d512cdc764124fc564
+  - url: "https://github.com/ROCm/rocBLAS/archive/refs/tags/rocm-${{ version }}.tar.gz"
+    sha256: 337a77cec31927e484672002d245d3aebf7a67e95658a8477fc593c95cf281fb
 
 build:
-  number: 0
+  number: 1
   skip: not linux
 
 requirements:
@@ -22,11 +22,30 @@ requirements:
     - cmake
     - pkg-config
     - ninja
+    # Needed by rocm_check_target_ids CMake function
+    - lld 20.*
+    - clang-tools 20.*
   host:
     - rocm-core ${{ version }}.*
-    - rocm-cmake ${{ version }}.*
-    - hipblas-common ${{ version }}.*
-    - hipblaslt ${{ version }}.*
+    - rocm-cmake
+    - rocm-smi
+    - hipcc
+    - hip-devel
+    - rocm-device-libs 
+    - roctracer
+    - hipblas-common
+    - hipblaslt
+    # Needed for tensilite
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+    - msgpack-cxx
+    - libboost-devel
+    - msgpack-python
+    - joblib
+    - pyyaml
+    - packaging
+    - rocm-smi
 
 tests:
   - requirements:
@@ -35,17 +54,19 @@ tests:
         - ${{ compiler('c') }}
         - ${{ compiler('cxx') }}
     script:
-      - cmake-package-check hipblas-common
+      - cmake-package-check rocblas
   - package_contents:
       include:
-        - hipblas-common/hipblas-common.h
+        - rocblas/rocblas.h
+      lib:
+        - rocblas
 
 about:
-  homepage: https://github.com/ROCm/rocm-libraries
+  homepage: https://rocm.docs.amd.com/projects/rocBLAS
   license: MIT
   license_family: MIT
   license_file: LICENSE.md
-  summary: "hipBLAS-common is a header-only library that provides common files for hipBLAS and hipBLASLt."
+  summary: "rocBLAS is the AMD library for BLAS in ROCm. Implemented using the HIP language and optimized for AMD GPUs."
 
 extra:
   recipe-maintainers:

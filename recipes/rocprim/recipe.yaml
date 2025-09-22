@@ -1,0 +1,58 @@
+context:
+  name: rocprim
+  version: "7.0.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  - url: "https://github.com/ROCm/rocPRIM/archive/refs/tags/rocm-${{ version }}.tar.gz"
+    sha256: e4cbdeae91e95e1fb7388c39a8686ec8015599f579190538e6ada8b1dec244c2
+
+build:
+  number: 0
+  skip: not linux
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ${{ compiler('cxx') }}
+    - cmake
+    - pkg-config
+    - ninja
+  host:
+    - rocm-core ${{ version }}.*
+    - rocm-cmake
+    - hipcc
+    - hip-devel
+    - rocm-device-libs 
+
+
+tests:
+  # Temporary commented out, find_package(rocprim) needs
+  # hip-devel to be installed to work, but it does not make sense
+  # to add that as a run dependency, unless we add a rocprim-devel
+  # package.
+  # - requirements:
+  #    run:
+  #      - cmake-package-check
+  #      - ${{ compiler('c') }}
+  #      - ${{ compiler('cxx') }}
+  #  script:
+  #    - cmake-package-check rocprim
+  - package_contents:
+      include:
+        - ${{ name }}/${{ name }}.hpp
+
+about:
+  homepage: https://rocm.docs.amd.com/projects/rocPRIM
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE.txt
+  summary: "rocPRIM is a header-only library that provides HIP parallel primitives."
+
+extra:
+  recipe-maintainers:
+    - traversaro

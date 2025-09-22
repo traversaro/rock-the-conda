@@ -1,5 +1,5 @@
 context:
-  name: hipblas
+  name: rocsolver
   version: "7.0.0"
 
 package:
@@ -7,8 +7,8 @@ package:
   version: ${{ version }}
 
 source:
-  - url: "https://github.com/ROCm/hipBLAS/archive/refs/tags/rocm-${{ version }}.tar.gz"
-    sha256: 9500c514cb272f09cba9bea74eaac9873e8a8afc1ed30e9f5b87f795d4eda877
+  - url: "https://github.com/ROCm/rocSOLVER/archive/refs/tags/rocm-${{ version }}.tar.gz"
+    sha256: 635bbf625d81e11afc70f6c0e23212ed13ea20ea50cf995d3dfa0e4636c19558
 
 build:
   number: 0
@@ -22,20 +22,14 @@ requirements:
     - cmake
     - pkg-config
     - ninja
-    # Needed by rocm_check_target_ids CMake function
-    - lld 20.*
   host:
     - rocm-core ${{ version }}.*
     - rocm-cmake
-    - rocm-smi
-    - hipblaslt ${{ version }}.*
     - hipcc
     - hip-devel
     - rocm-device-libs 
-    - roctracer
-    - hipblas-common
     - rocblas
-    - rocsolver
+    - rocprim
 
 tests:
   - requirements:
@@ -44,19 +38,19 @@ tests:
         - ${{ compiler('c') }}
         - ${{ compiler('cxx') }}
     script:
-      - cmake-package-check hipblas
+      - cmake-package-check ${{ name }}
   - package_contents:
       include:
-        - hipblas/hipblas.h
+        - ${{ name }}/${{ name }}.h
       lib:
-        - hipblas
+        - ${{ name }}
 
 about:
-  homepage: https://rocm.docs.amd.com/projects/hipBLAS
+  homepage: https://rocm.docs.amd.com/projects/rocSOLVER
   license: MIT
   license_family: MIT
   license_file: LICENSE.md
-  summary: "ROCm BLAS marshalling library."
+  summary: "AMD ROCm SOLVER library."
 
 extra:
   recipe-maintainers:

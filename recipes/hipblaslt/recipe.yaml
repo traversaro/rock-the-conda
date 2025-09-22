@@ -54,13 +54,17 @@ requirements:
     - ${{ pin_subpackage(name, upper_bound='x.x') }}
 
 tests:
-  - requirements:
-      run:
-        - cmake-package-check
-        - ${{ compiler('c') }}
-        - ${{ compiler('cxx') }}
-    script:
-      - cmake-package-check hipblaslt
+  # Temporary commented out, find_package(hipblaslt) needs
+  # hip-devel to be installed to work, but it does not make sense
+  # to add that as a run dependency, unless we add a hipblaslt-devel
+  # package.
+  # - requirements:
+  #    run:
+  #      - cmake-package-check
+  #      - ${{ compiler('c') }}
+  #      - ${{ compiler('cxx') }}
+  #  script:
+  #    - cmake-package-check hipblaslt
   - package_contents:
       include:
         - hipblaslt/hipblaslt.h
