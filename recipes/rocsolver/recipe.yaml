@@ -35,13 +35,14 @@ requirements:
     - rocprim
 
 tests:
-  - requirements:
-      run:
-        - cmake-package-check
-        - ${{ compiler('c') }}
-        - ${{ compiler('cxx') }}
-    script:
-      - cmake-package-check ${{ name }}
+  # needs hip-devel
+  #- requirements:
+  #    run:
+  #      - cmake-package-check
+  #      - ${{ compiler('c') }}
+  #      - ${{ compiler('cxx') }}
+  #  script:
+  #    - cmake-package-check ${{ name }}
   - package_contents:
       include:
         - ${{ name }}/${{ name }}.h

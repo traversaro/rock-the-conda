@@ -38,13 +38,14 @@ requirements:
     - rocsolver
 
 tests:
-  - requirements:
-      run:
-        - cmake-package-check
-        - ${{ compiler('c') }}
-        - ${{ compiler('cxx') }}
-    script:
-      - cmake-package-check hipblas
+  # Needs hip-devel
+  #- requirements:
+  #    run:
+  #      - cmake-package-check
+  #      - ${{ compiler('c') }}
+  #      - ${{ compiler('cxx') }}
+  #  script:
+  #    - cmake-package-check hipblas
   - package_contents:
       include:
         - hipblas/hipblas.h
