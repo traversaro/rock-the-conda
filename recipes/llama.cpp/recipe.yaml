@@ -63,7 +63,7 @@ build:
         {%- if rocm_version != "None" %}
         export HIP_DEVICE_LIB_PATH=$PREFIX/lib/amdgcn/bitcode
         ${{ ggml_args("HIP=ON") }}
-        ${{ cmake_args("GPU_TARGETS=gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1100;gfx1101;gfx1102;gfx1151;gfx1200;gfx1201") }}
+        ${{ cmake_args("CMAKE_HIP_ARCHITECTURES=gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1100;gfx1101;gfx1102;gfx1151;gfx1200;gfx1201") }}
         ${{ cmake_args("CMAKE_HIP_COMPILER=$PREFIX/bin/clang") }}
 
         {%- endif %}
@@ -168,11 +168,13 @@ requirements:
         - hipcc
         - lld 20.*
         - clang-tools 20.*
+        - compiler-rt 20.*
         - hip-devel
         - rocminfo
         - rocm-device-libs
         - rocblas
         - hipblas
+        - hipblas-common
   run:
     - if: cuda_compiler_version != "None"
       then:
