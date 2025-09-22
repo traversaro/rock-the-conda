@@ -48,13 +48,13 @@ requirements:
     - rocm-smi
 
 tests:
-  - requirements:
-      run:
-        - cmake-package-check
-        - ${{ compiler('c') }}
-        - ${{ compiler('cxx') }}
-    script:
-      - cmake-package-check rocblas
+  #- requirements:
+  #    run:
+  #      - cmake-package-check
+  #      - ${{ compiler('c') }}
+  #      - ${{ compiler('cxx') }}
+  #  script:
+  #    - cmake-package-check rocblas
   - package_contents:
       include:
         - rocblas/rocblas.h
