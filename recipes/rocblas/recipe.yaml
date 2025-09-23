@@ -46,6 +46,9 @@ requirements:
     - pyyaml
     - packaging
     - rocm-smi
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound='x.x') }}
+
 
 tests:
   #- requirements:

@@ -33,6 +33,8 @@ requirements:
     - rocm-device-libs 
     - rocblas
     - rocprim
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound='x.x') }}
 
 tests:
   # needs hip-devel
