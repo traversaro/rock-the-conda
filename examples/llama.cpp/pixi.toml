@@ -9,7 +9,7 @@ version = "0.1.0"
 download_model = { cmd = "curl -L -o gemma-3-1b-it-Q4_K_M.gguf https://huggingface.co/ggml-org/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q4_K_M.gguf", outputs = [
   "gemma-3-1b-it-Q4_K_M.gguf",
 ] }
-benchmark = {cmd="llama-bench -m ./gemma-3-1b-it-Q4_K_M.gguf", inputs=["gemma-3-1b-it-Q4_K_M.gguf"], depends-on="download_model"}
+benchmark = {cmd="llama-bench -m ./gemma-3-1b-it-Q4_K_M.gguf", depends-on="download_model"}
 
 [dependencies]
 
