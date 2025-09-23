@@ -9,10 +9,9 @@ version = "0.1.0"
 download_model = { cmd = "curl -L -o gemma-3-1b-it-Q4_K_M.gguf https://huggingface.co/ggml-org/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q4_K_M.gguf", outputs = [
   "gemma-3-1b-it-Q4_K_M.gguf",
 ] }
-benchmark = {cmd="llama-bench -m ./ggml-org_gemma-3-1b-it-GGUF_gemma-3-1b-it-Q4_K_M.gguf", inputs=["gemma-3-1b-it-Q4_K_M.gguf"], depends-on="download_model"}
+benchmark = {cmd="llama-bench -m ./gemma-3-1b-it-Q4_K_M.gguf", inputs=["gemma-3-1b-it-Q4_K_M.gguf"], depends-on="download_model"}
 
 [dependencies]
-"llama.cpp" = { version = "*", build = "*rocm*" }
 
 # Workaround for missing run_exports, will be fixed in next rebuild
 hipblas = "*"
@@ -21,3 +20,10 @@ roctracer = "*"
 rocsolver = "*"
 
 curl = "*"
+
+[feature.cpu.dependencies]
+"llama.cpp" = { version = "*", build = "*cpu*" }
+curl = "*"
+
+[environments]
+cpu = { features = ["cpu"], no-default-feature = true }

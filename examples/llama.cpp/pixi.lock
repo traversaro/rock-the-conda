@@ -1,5 +1,40 @@
 version: 6
 environments:
+  cpu:
+    channels:
+    - url: https://repo.prefix.dev/rock-the-conda/
+    - url: https://repo.prefix.dev/conda-forge/
+    packages:
+      linux-64:
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-4_kmp_llvm.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/c-ares-1.34.5-hb9d3cd8_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/noarch/ca-certificates-2025.8.3-hbd8a1cb_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/curl-8.14.1-h332b0f4_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/icu-75.1-he02047a_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/keyutils-1.6.3-hb9d3cd8_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/krb5-1.21.3-h659f571_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libcurl-8.14.1-h332b0f4_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libedit-3.1.20250104-pl5321h7949ede_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libev-4.33-hd590300_2.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libgcc-15.1.0-h767d61c_5.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libgcc-ng-15.1.0-h69a702a_5.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libhwloc-2.12.1-default_h7f8ec31_1002.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libiconv-1.18-h3b78370_2.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/liblzma-5.8.1-hb9d3cd8_2.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libnghttp2-1.67.0-had1ee68_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libssh2-1.11.1-hcf80075_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libstdcxx-15.1.0-h8f9b012_5.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libstdcxx-ng-15.1.0-h4852527_5.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libxml2-16-2.15.0-ha9997c6_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libxml2-2.15.0-h26afc86_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/libzlib-1.3.1-hb9d3cd8_2.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/llama.cpp-6441-cpu_mkl_h2606d07_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/llvm-openmp-21.1.0-h4922eb0_0.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/mkl-2024.2.2-ha770c72_17.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/ncurses-6.5-h2d0b736_3.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/openssl-3.5.3-h26f9b46_1.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/tbb-2021.13.0-hb60516a_3.conda
+      - conda: https://repo.prefix.dev/conda-forge/linux-64/zstd-1.5.7-hb8e6e7a_2.conda
   default:
     channels:
     - url: https://repo.prefix.dev/rock-the-conda/
@@ -53,7 +88,6 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libxml2-16-2.15.0-ha9997c6_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libxml2-2.15.0-h26afc86_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libzlib-1.3.1-hb9d3cd8_2.conda
-      - conda: https://repo.prefix.dev/rock-the-conda/linux-64/llama.cpp-6441-rocm70_h05a04a1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lz4-c-1.10.0-h5888daf_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lzo-2.10-h280c20c_1002.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/msgpack-cxx-7.0.0-h9fb26e6_0.conda
@@ -91,6 +125,16 @@ packages:
   license_family: BSD
   size: 23621
   timestamp: 1650670423406
+- conda: https://repo.prefix.dev/conda-forge/linux-64/_openmp_mutex-4.5-4_kmp_llvm.conda
+  build_number: 4
+  sha256: b5e8980dd5fd96607fcccd98217b1058ec54566845b757cc0ecef146b5f0a51e
+  md5: cc86eba730b0e87ea9990985d45e60f9
+  depends:
+  - llvm-openmp >=9.0.1
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 8208
+  timestamp: 1756424663803
 - conda: https://repo.prefix.dev/conda-forge/linux-64/bzip2-1.0.8-hda65f42_8.conda
   sha256: c30daba32ddebbb7ded490f0e371eae90f51e72db620554089103b4a6934b0d5
   md5: 51a19bba1b8ebfb60df25cde030b7ebc
@@ -443,6 +487,19 @@ packages:
   license_family: GPL
   size: 447215
   timestamp: 1757042483384
+- conda: https://repo.prefix.dev/conda-forge/linux-64/libhwloc-2.12.1-default_h7f8ec31_1002.conda
+  sha256: f7fbc792dbcd04bf27219c765c10c239937b34c6c1a1f77a5827724753e02da1
+  md5: c01021ae525a76fe62720c7346212d74
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libgcc >=14
+  - libstdcxx >=14
+  - libxml2
+  - libxml2-16 >=2.14.6
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 2450642
+  timestamp: 1757624375958
 - conda: https://repo.prefix.dev/conda-forge/linux-64/libiconv-1.18-h3b78370_2.conda
   sha256: c467851a7312765447155e071752d7bf9bf44d610a5687e32706f480aad2833f
   md5: 915f5995e94f60e9a4826e0b0920ee88
@@ -639,20 +696,34 @@ packages:
   license_family: Other
   size: 60963
   timestamp: 1727963148474
-- conda: https://repo.prefix.dev/rock-the-conda/linux-64/llama.cpp-6441-rocm70_h05a04a1_0.conda
-  sha256: de0fd159285131292f25402e11a89f33f320432b9a25495b39065b3bbcfe3010
+- conda: https://repo.prefix.dev/conda-forge/linux-64/llama.cpp-6441-cpu_mkl_h2606d07_0.conda
+  sha256: 673f6c1cb676c0ffd5b1249be80e0014a5fe81c05af1e3ae11f7516be5e9ec77
+  md5: 799fcc9a20d4f80cc00ff63bb6827789
   depends:
-  - libstdcxx >=15
-  - libgcc >=15
   - __glibc >=2.17,<3.0.a0
-  - hip-runtime-amd >=7.0.0,<8.0a0
-  - rocm-core >=7.0.0,<7.1.0a0
+  - libgcc >=14
+  - libstdcxx >=14
+  - libgcc >=14
   - libcurl >=8.14.1,<9.0a0
+  - mkl >=2024.2.2,<2025.0a0
   constrains:
   - whisper.cpp <0.0.0a0
   license: MIT
-  size: 41173715
-  timestamp: 1758556477552
+  license_family: MIT
+  size: 11963819
+  timestamp: 1758025418336
+- conda: https://repo.prefix.dev/conda-forge/linux-64/llvm-openmp-21.1.0-h4922eb0_0.conda
+  sha256: eb42c041e2913e4a8da3e248e4e690b5500c9b9a7533b4f99e959a22064ac599
+  md5: d9965f88b86534360e8fce160efb67f1
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  constrains:
+  - openmp 21.1.0|21.1.0.*
+  - intel-openmp <0.0a0
+  license: Apache-2.0 WITH LLVM-exception
+  license_family: APACHE
+  size: 3231740
+  timestamp: 1756673029051
 - conda: https://repo.prefix.dev/conda-forge/linux-64/lz4-c-1.10.0-h5888daf_1.conda
   sha256: 47326f811392a5fd3055f0f773036c392d26fdb32e4d8e7a8197eed951489346
   md5: 9de5350a85c4a20c685259b889aa6393
@@ -674,6 +745,18 @@ packages:
   license_family: GPL
   size: 191060
   timestamp: 1753889274283
+- conda: https://repo.prefix.dev/conda-forge/linux-64/mkl-2024.2.2-ha770c72_17.conda
+  sha256: 1e59d0dc811f150d39c2ff2da930d69dcb91cb05966b7df5b7d85133006668ed
+  md5: e4ab075598123e783b788b995afbdad0
+  depends:
+  - _openmp_mutex * *_llvm
+  - _openmp_mutex >=4.5
+  - llvm-openmp >=20.1.8
+  - tbb 2021.*
+  license: LicenseRef-IntelSimplifiedSoftwareOct2022
+  license_family: Proprietary
+  size: 124988693
+  timestamp: 1753975818422
 - conda: https://repo.prefix.dev/conda-forge/linux-64/msgpack-cxx-7.0.0-h9fb26e6_0.conda
   sha256: 8431620fa7be84485085537a6e00b788c08e383bb370a0f981306564ba9591e1
   md5: f54c289a1891eff554352e97306d8c25
@@ -842,6 +925,18 @@ packages:
   license_family: MIT
   size: 195618
   timestamp: 1751348678073
+- conda: https://repo.prefix.dev/conda-forge/linux-64/tbb-2021.13.0-hb60516a_3.conda
+  sha256: cf9101d1327de410a844f29463c486c47dfde506d0c0656d2716c03135666c3f
+  md5: aa15aae38fd752855ca03a68af7f40e2
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libgcc >=14
+  - libhwloc >=2.12.1,<2.12.2.0a0
+  - libstdcxx >=14
+  license: Apache-2.0
+  license_family: APACHE
+  size: 177271
+  timestamp: 1755775913224
 - conda: https://repo.prefix.dev/conda-forge/linux-64/zstd-1.5.7-hb8e6e7a_2.conda
   sha256: a4166e3d8ff4e35932510aaff7aa90772f84b4d07e9f6f83c614cba7ceefe0eb
   md5: 6432cb5d4ac0046c3ac0a8a0f95842f9
