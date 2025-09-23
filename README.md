@@ -10,6 +10,42 @@ If you are interested in ROCm support in conda-forge, please monitor official is
 
 ## Features
 
+### Conda-forge Feedstock Building
+
+As a playground for official conda-forge PRs, this repo contains a way to build conda-forge feedstocks for ROCm packages:
+
+~~~bash
+pixi run build-packages
+~~~
+
+The recipe to build are configured in `recipes` folder and build in order the following feedstocks:
+- `rocm-core`
+- `rocm-cmake`
+- `rocm-devices-libs`
+- `rocm-comgr`
+- `rocr-runtime`
+- `rocminfo`
+- `hip`
+- `rocm-smi`
+- `roctracer`
+- `hipblas-common`
+- `hiblaslt`
+- `rocprim`
+- `rocblas`
+- `rocsolver`
+- `hipblas`
+
+And the following downstream packages that uses `rocm`:
+- `llama.cpp`
+
+Built packages will be placed in the `output/` subdirectory of the folder. For simplify the debugging, some built packages are available in https://prefix.dev/channels/rock-the-conda . A simple example of using `rocm`-powered llama.cpp (to verify if GPU is actually used) is available in `examples/llama.cpp`:
+
+~~~
+cd examples/llama.cpp
+pixi run benchmark
+~~~
+
+
 ### TheRock Dependency Analysis
 
 One functionality of this repo is some tooling to extract dependencies information of rocm packages from [`TheRock`](https://github.com/ROCm/TheRock):
@@ -30,22 +66,3 @@ pixi run download-therock-all
 pixi run build-therock
 ~~~
 
-### Conda-forge Feedstock Building
-
-As a playground for official conda-forge PRs, this repo contains a way to build conda-forge feedstocks for ROCm packages:
-
-~~~bash
-pixi run build-packages
-~~~
-
-
-The recipe to build are configured in `recipes` folder and build in order the following feedstocks:
-- `rocm-cmake`
-- `rocm-devices-libs`
-- `rocm-comgr`
-- `rocr-runtime`
-- `rocminfo`
-- `hip`
-- `rocm-smi`
-
-Built packages will be placed in the `conda-bld/` directory.
