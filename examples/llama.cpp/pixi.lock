@@ -88,6 +88,7 @@ environments:
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libxml2-16-2.15.0-ha9997c6_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libxml2-2.15.0-h26afc86_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/libzlib-1.3.1-hb9d3cd8_2.conda
+      - conda: https://repo.prefix.dev/rock-the-conda/linux-64/llama.cpp-6441-rocm70_h05a04a1_0.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lz4-c-1.10.0-h5888daf_1.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/lzo-2.10-h280c20c_1002.conda
       - conda: https://repo.prefix.dev/conda-forge/linux-64/msgpack-cxx-7.0.0-h9fb26e6_0.conda
@@ -712,6 +713,20 @@ packages:
   license_family: MIT
   size: 11963819
   timestamp: 1758025418336
+- conda: https://repo.prefix.dev/rock-the-conda/linux-64/llama.cpp-6441-rocm70_h05a04a1_0.conda
+  sha256: de0fd159285131292f25402e11a89f33f320432b9a25495b39065b3bbcfe3010
+  depends:
+  - libstdcxx >=15
+  - libgcc >=15
+  - __glibc >=2.17,<3.0.a0
+  - hip-runtime-amd >=7.0.0,<8.0a0
+  - rocm-core >=7.0.0,<7.1.0a0
+  - libcurl >=8.14.1,<9.0a0
+  constrains:
+  - whisper.cpp <0.0.0a0
+  license: MIT
+  size: 41173715
+  timestamp: 1758556477552
 - conda: https://repo.prefix.dev/conda-forge/linux-64/llvm-openmp-21.1.0-h4922eb0_0.conda
   sha256: eb42c041e2913e4a8da3e248e4e690b5500c9b9a7533b4f99e959a22064ac599
   md5: d9965f88b86534360e8fce160efb67f1

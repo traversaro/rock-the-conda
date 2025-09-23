@@ -14,6 +14,7 @@ benchmark = {cmd="llama-bench -m ./gemma-3-1b-it-Q4_K_M.gguf", inputs=["gemma-3-
 [dependencies]
 
 # Workaround for missing run_exports, will be fixed in next rebuild
+"llama.cpp" = { version = "*", build = "*rocm*" }
 hipblas = "*"
 rocblas = "*"
 roctracer = "*"
