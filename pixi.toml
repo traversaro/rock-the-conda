@@ -21,8 +21,8 @@ print-conda-build-args = { cmd = "echo 'CONDA_BUILD_ARGS: '$CONDA_BUILD_ARGS" }
 build-rocm-core = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocm-core", depends-on = ["print-conda-build-args"]  }
 build-rocm-cmake = { cmd = "conda-build $CONDA_BUILD_ARGS ./recipes/rocm-cmake", depends-on = ["build-rocm-core", "print-conda-build-args"]  }
 build-rocm-devices-libs = { cmd = "conda-build ./recipes/rocm-device-libs $CONDA_BUILD_ARGS", depends-on = ["build-rocm-core"] }
-build-rocm-comgr = { cmd = "conda-build ./recipes/rocm-comgr $CONDA_BUILD_ARGS", depends-on = ["build-rocm-core"]  }
-build-rocr-runtime = { cmd = "conda-build ./recipes/rocr-runtime $CONDA_BUILD_ARGS", depends-on = ["build-rocm-core"]  }
+build-rocm-comgr = { cmd = "conda-build ./recipes/rocm-comgr $CONDA_BUILD_ARGS", depends-on = ["build-rocm-core", "build-rocm-devices-libs"]  }
+build-rocr-runtime = { cmd = "conda-build ./recipes/rocr-runtime $CONDA_BUILD_ARGS", depends-on = ["build-rocm-core", "build-rocm-devices-libs"]  }
 build-rocminfo = { cmd = "conda-build ./recipes/rocminfo $CONDA_BUILD_ARGS", depends-on = ["build-rocr-runtime", "build-rocm-core"] }
 build-hip-no-deps = { cmd = "conda-build ./recipes/hip $CONDA_BUILD_ARGS" }
 build-hip = { cmd = "conda-build ./recipes/hip $CONDA_BUILD_ARGS", depends-on = ["build-rocm-core", "build-rocminfo", "build-rocr-runtime", "build-rocm-comgr"] }

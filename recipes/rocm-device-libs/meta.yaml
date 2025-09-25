@@ -1,5 +1,6 @@
 {% set name = "rocm-device-libs" %}
 {% set version = "7.0.1" %}
+{% set llvm_major_version = "20" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +8,7 @@ package:
 
 source:
   url: https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-{{ version }}.zip
-  sha256: e2c75ce2f51b8986b563d78fd9cceb94cee2636fc287ae93566a5686a2949be1
+  sha256: 8ec2abbadd6ac93b66f0e6db8d7624676958470f96c1693c1ed8c2069b74fe9a
   patches:
     - patches/0001-Use-a-folder-inside-lib-for-bitcode-instead-of-top-l.patch
 
@@ -26,13 +27,18 @@ requirements:
     - rocm-core {{ version }}
     - rocm-cmake
     - zlib
-    - clangdev 20.*
-    - llvmdev 20.*
+    - clangdev {{ llvm_major_version }}.*
+    - llvmdev {{ llvm_major_version }}.*
     - llvm
 
 test:
+  files:
+    - test/hip_smoke_test.hip
   commands:
-    - test -f $PREFIX/lib/amdgcn/bitcode/hip.bc
+    # Check files are in the expected location
+    - test -f $PREFIX/lib/clang/{{ llvm_major_version }}/lib/amdgcn/bitcode/hip.bc
+    # Test that clang can find the bitcode files out of the box
+    - clang -x hip -nogpuinc -c ./test/hip_smoke_test.hip -o ./test/hip_smoke_test.o
 
 about:
   home: https://github.com/ROCm/ROCm-Device-Libs
