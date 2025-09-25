@@ -27,10 +27,12 @@ The recipe to build are configured in `recipes` folder and build in order the fo
 - `rocminfo`
 - `hip`
 - `rocm-smi`
+- `rocprim`
+- `rocfft`
+- `hipfft`
 - `roctracer`
 - `hipblas-common`
 - `hiblaslt`
-- `rocprim`
 - `rocblas`
 - `rocsolver`
 - `hipblas`
