@@ -8,7 +8,7 @@ package:
 
 source:
   - url: "https://github.com/ROCm/rocm-core/archive/refs/tags/rocm-${{ version }}.tar.gz"
-    sha256: d7741e12d184a6553f6d39b3ff4d113a2e7eeb509d5ec08e06cdaf51dcd26f90
+    sha256: d35b0a11b888bea9bbd6c87150f46ea709d8aa943a635d6f4d2a69fc9be5ab8d
 
 build:
   number: 0
