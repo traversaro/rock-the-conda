@@ -1,5 +1,5 @@
 context:
-  name: hipblas
+  name: hipfft
   version: "7.0.1"
 
 package:
@@ -7,7 +7,7 @@ package:
   version: ${{ version }}
 
 source:
-  - url: "https://github.com/ROCm/hipBLAS/archive/refs/tags/rocm-${{ version }}.tar.gz"
+  - url: "https://github.com/ROCm/hipFFT/archive/refs/tags/rocm-${{ version }}.tar.gz"
     sha256: 9500c514cb272f09cba9bea74eaac9873e8a8afc1ed30e9f5b87f795d4eda877
 
 build:
@@ -19,25 +19,15 @@ requirements:
     - ${{ compiler('c') }}
     - ${{ stdlib('c') }}
     - ${{ compiler('cxx') }}
-    # Note: fortran is only required on Linux
-    - ${{ compiler('fortran') }}
     - cmake
     - pkg-config
     - ninja
-    # Needed by rocm_check_target_ids CMake function
-    - lld 20.*
   host:
     - rocm-core ${{ version }}.*
     - rocm-cmake
-    - rocm-smi
-    - hipblaslt ${{ version }}.*
-    - hipcc
     - hip-devel
-    - rocm-device-libs 
-    - roctracer
-    - hipblas-common
-    - rocblas
-    - rocsolver
+    - hipcc
+    - rocfft
   run_exports:
     - ${{ pin_subpackage(name, upper_bound='x.x') }}
 
@@ -49,19 +39,19 @@ tests:
   #      - ${{ compiler('c') }}
   #      - ${{ compiler('cxx') }}
   #  script:
-  #    - cmake-package-check hipblas
+  #    - cmake-package-check hipfft
   - package_contents:
       include:
-        - hipblas/hipblas.h
+        - hipfft/hipfft.h
       lib:
-        - hipblas
+        - hipfft
 
 about:
-  homepage: https://rocm.docs.amd.com/projects/hipBLAS
+  homepage: https://rocm.docs.amd.com/projects/hipFFT
   license: MIT
   license_family: MIT
   license_file: LICENSE.md
-  summary: "ROCm BLAS marshalling library."
+  summary: "hipFFT is an FFT marshalling library."
 
 extra:
   recipe-maintainers:

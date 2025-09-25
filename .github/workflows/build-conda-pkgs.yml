@@ -7,7 +7,7 @@ on:
 
 env:
   # Change to 'true' to ignore cache and force a full rebuild, but please restore to 'false' before merging
-  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'false'
+  IGNORE_CACHE_AND_DO_FULL_REBUILD: 'true'
 
 jobs:
   build-packages:
@@ -49,7 +49,9 @@ jobs:
         rm -rf ${{ matrix.folder_cache }}/*
 
     - name: Build packages
-      run: pixi run build-packages
+      # We can't build all packages in github actions, because of lack of memory for hipblaslt
+      # So we build only the packages that are lightweight enough to be built in a github action
+      run: pixi run build-packages-lightweight
 
     - name: Save build cache
       uses: actions/cache/save@v4

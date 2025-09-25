@@ -1,5 +1,5 @@
 {% set name = "hip" %}
-{% set version = "7.0.0" %}
+{% set version = "7.0.1" %}
 {% set major_version = version.split('.')[0] %}
 {% set minor_version = version.split('.')[1] %}
 {% set major_minor_version = ".".join(version.split(".")[:2]) %}
@@ -37,10 +37,6 @@ requirements:
     - {{ compiler('c') }}
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
-    - {{ cdt('xorg-x11-proto-devel') }}
-    - {{ cdt('libx11-devel') }}
-    - {{ cdt('mesa-libgl-devel') }}
-    - {{ cdt('mesa-libegl-devel') }}
     - cmake
     - make
     - cppheaderparser
@@ -141,6 +137,19 @@ outputs:
         - export HIP_PLATFORM=amd
         - $PREFIX/bin/hipcc --offload-arch=gfx803 --version
         - $PREFIX/bin/hipconfig
+        # hipcc is the package that provides the files necessary to compile HIP
+        # code in CMake, so we test both find_package(hip) and enable_language(HIP),
+        # see https://rocm.docs.amd.com/en/docs-7.0.0/conceptual/cmake-packages.html
+        - cmake-package-check hip --targets hip::host hip::device
+        - cmake -Btest_cmake_enable_hip_build -Stest_cmake_enable_hip -GNinja
+      requires:
+        - cmake-package-check
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - cmake
+        - ninja
+      files:
+        - test_cmake_enable_hip
 
   - name: rocm-opencl
     requirements:
