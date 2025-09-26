@@ -10,7 +10,7 @@ source:
   url: https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-{{ version }}.zip
   sha256: 8ec2abbadd6ac93b66f0e6db8d7624676958470f96c1693c1ed8c2069b74fe9a
   patches:
-    - patches/0001-Use-a-folder-inside-lib-for-bitcode-instead-of-top-l.patch
+    - patches/0001-fix-install-path.patch
 
 build:
   number: 0
@@ -21,6 +21,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ stdlib('c') }}
+    # Workaround for https://github.com/ROCm/llvm-project/commit/a18cc4c7cb51f94182b6018c7c73acde1b8ebddb
     - cmake <4
     - make
   host:
