@@ -22,15 +22,10 @@ requirements:
     - cmake
     - pkg-config
     - ninja
-    # Needed by rocm_check_target_ids CMake function
-    - lld 20.*
-    - clang-tools 20.*
   host:
     - rocm-core ${{ version }}.*
     - rocm-cmake
     - hipcc
-    - hip-devel
-    - rocm-device-libs 
     - rocblas
     - rocprim
   run_exports:

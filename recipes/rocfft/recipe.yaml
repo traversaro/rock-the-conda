@@ -25,7 +25,6 @@ requirements:
   host:
     - rocm-core ${{ version }}.*
     - rocm-cmake
-    - hip-devel
     - hipcc
     - sqlite
   run_exports:

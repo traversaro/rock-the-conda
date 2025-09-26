@@ -33,6 +33,12 @@ requirements:
     - llvm
 
 test:
+  requires:
+    - clangdev {{ llvm_major_version }}.*
+    - llvmdev {{ llvm_major_version }}.*
+    - lld {{ llvm_major_version }}.*
+    - compiler-rt {{ llvm_major_version }}.*
+    - clang-tools {{ llvm_major_version }}.*
   files:
     - test/hip_smoke_test.hip
   commands:

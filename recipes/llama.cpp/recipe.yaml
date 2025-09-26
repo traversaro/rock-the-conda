@@ -165,12 +165,7 @@ requirements:
         # Mutex package to specify rocm version
         - rocm-core ${{ rocm_version }}.*
         - hipcc
-        - lld 20.*
-        - clang-tools 20.*
-        - compiler-rt 20.*
-        - hip-devel
         - rocminfo
-        - rocm-device-libs
         - rocblas
         - hipblas
         - hipblas-common

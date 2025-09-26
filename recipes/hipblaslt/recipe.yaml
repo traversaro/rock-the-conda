@@ -29,12 +29,8 @@ requirements:
     - rocm-core ${{ version }}.*
     - rocm-cmake ${{ version }}.*
     - hipcc ${{ version }}.*
-    - hip-devel ${{ version }}.*
-    - hipblas-common ${{ version }}.*
-    - rocm-device-libs ${{ version }}.*
+    - hipblas-common
     - roctracer
-    - clangdev 20.*
-    - llvmdev 20.*
     # Needed for tensilite
     - python ${{ python_min }}.*
     - pip

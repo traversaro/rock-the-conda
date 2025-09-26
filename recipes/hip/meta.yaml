@@ -4,6 +4,7 @@
 {% set minor_version = version.split('.')[1] %}
 {% set major_minor_version = ".".join(version.split(".")[:2]) %}
 {% set patch_version = version.split('.')[2] %}
+{% set llvm_major_version = "20" %}
 
 package:
   name: {{ name|lower }}
@@ -43,9 +44,9 @@ requirements:
     - wget
     - python *
   host:
-    - clangdev 20.*
+    - clangdev {{ llvm_major_version}}.*
     - numactl
-    - llvmdev 20.*
+    - llvmdev {{ llvm_major_version}}.*
     - ocl-icd
     - rocm-core {{ version }}
     - rocm-comgr {{ major_minor_version }}.*
@@ -63,7 +64,7 @@ outputs:
         - {{ compiler('cxx') }}
       host:
         - numactl
-        - rocm-core  {{ version }}
+        - rocm-core {{ version }}
         - rocm-comgr {{ major_minor_version }}.*
         - rocr-runtime {{ major_minor_version }}.*
       run:
@@ -118,13 +119,19 @@ outputs:
         - {{ pin_subpackage("hip-devel", exact=True) }}
       run:
         - {{ pin_subpackage("hip-devel", exact=True) }}
-        - clang
-        - clangxx
+        - clang {{ llvm_major_version}}.*
+        - clangxx {{ llvm_major_version}}.*
         - llvm-tools
         - perl
         - python *
-        - rocm-core  {{ version }}
+        - rocm-core {{ version }}
         - rocminfo {{ major_minor_version }}.*
+        # rocm-device-libs, lld and clang is required for hipcc compilation
+        - rocm-device-libs {{ major_minor_version }}.*
+        - lld {{ llvm_major_version}}.*
+        - clang-tools {{ llvm_major_version}}.*
+        - compiler-rt {{ llvm_major_version}}.*
+  
     files:
       - bin/hipcc
       - bin/hipcc.bin
@@ -141,7 +148,8 @@ outputs:
         # code in CMake, so we test both find_package(hip) and enable_language(HIP),
         # see https://rocm.docs.amd.com/en/docs-7.0.0/conceptual/cmake-packages.html
         - cmake-package-check hip --targets hip::host hip::device
-        - cmake -Btest_cmake_enable_hip_build -Stest_cmake_enable_hip -GNinja
+        - cmake -B./test/test_cmake_enable_hip_build -S./test/test_cmake_enable_hip -GNinja
+        - hipcc --offload-arch=gfx942 ./test/main_hip_smoke_test.hip
       requires:
         - cmake-package-check
         - {{ compiler('c') }}
@@ -149,7 +157,7 @@ outputs:
         - cmake
         - ninja
       files:
-        - test_cmake_enable_hip
+        - test
 
   - name: rocm-opencl
     requirements:

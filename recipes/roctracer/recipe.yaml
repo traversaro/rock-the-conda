@@ -28,9 +28,7 @@ requirements:
     - ninja
   host:
     - rocm-core ${{ version }}.*
-    - hip-devel ${{ version }}.*
     - hipcc ${{ version }}.*
-    - rocm-device-libs ${{ version }}.*
     - cppheaderparser
   run_exports:
     - ${{ pin_subpackage(name, upper_bound='x.x') }}

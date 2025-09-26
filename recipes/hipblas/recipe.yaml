@@ -30,10 +30,8 @@ requirements:
     - rocm-core ${{ version }}.*
     - rocm-cmake
     - rocm-smi
-    - hipblaslt ${{ version }}.*
+    - hipblaslt
     - hipcc
-    - hip-devel
-    - rocm-device-libs 
     - roctracer
     - hipblas-common
     - rocblas

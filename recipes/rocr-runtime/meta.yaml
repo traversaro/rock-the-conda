@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/ROCm/ROCR-Runtime/archive/refs/tags/rocm-{{ version }}.tar.gz
-  sha256: 9ea2cbcf343f643ede6e16d82fbd0303771e1978759b2e546d0efc0df3263e4c
+  sha256: f2004b98683a5b8e25d70034baee0f37a3b24dc1d4737b1c07b7830f4c10189d
 
 build:
   number: 0
