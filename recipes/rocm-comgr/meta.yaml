@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-{{ version }}.tar.gz
-  sha256: 3d479a2aa615b6bb35cd3521122fbff34188dc0cc52d8b0acda59f9f55198211
+  sha256: c517a51f8b4c374a3a88d8a6995f197577ef1bed4cb6cc8b28fe8c6016eb11d0
   patches:
     - patches/fix-build-upstream-llvm-20.patch
 

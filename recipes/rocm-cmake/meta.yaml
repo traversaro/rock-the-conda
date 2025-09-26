@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/ROCm/rocm-cmake/archive/refs/tags/rocm-{{ version }}.tar.gz
-  sha256: 16b220cb10c8ebe438c1ba3b9de014abcd782fd0b0bcffb39d3d2d1ff6957f2a
+  sha256: fa19642ae69a67d27fe39e2a0154ba0a98a2444eeff6803beaf6a5177e2349f0
 
 build:
   number: 0

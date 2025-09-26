@@ -12,17 +12,17 @@ package:
 
 source:
   - url: https://github.com/ROCm/HIP/archive/refs/tags/rocm-{{ version }}.tar.gz
-    sha256: 762794050eb9f47d8278a3d023bb47fd075c30c91ea9c4719cae55d91535de3c
+    sha256: d34d2bc995e20871692b4bf72313976f03e02d3b1425ca3d02de4d4a9c7de510
     folder: hip
 
   - url: https://github.com/ROCm/clr/archive/refs/tags/rocm-{{ version }}.tar.gz
-    sha256: cc417e73cda903511db5a72b77704fd41bf7b39204c5cacb2c64701b344b8c5d
+    sha256: 990c37e452930dc273793c6a6826755341fc3adf832a03e735b628e570391aca
     folder: clr
     patches:
       - 0001-Mark-raw-strings.patch
 
   - url: https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-{{ version }}.tar.gz
-    sha256: 3d479a2aa615b6bb35cd3521122fbff34188dc0cc52d8b0acda59f9f55198211
+    sha256: c517a51f8b4c374a3a88d8a6995f197577ef1bed4cb6cc8b28fe8c6016eb11d0
     folder: hipcc
     patches:
       - 0001-Make-cmake-rocm-detection-required.patch
@@ -48,12 +48,16 @@ requirements:
     - numactl
     - llvmdev {{ llvm_major_version}}.*
     - ocl-icd
-    - rocm-core {{ version }}
+    - rocm-core {{ version }}.*
     - rocm-comgr {{ major_minor_version }}.*
     - rocr-runtime {{ major_minor_version }}.*
     - rocm-cmake {{ major_minor_version }}.*
     - zlib
     - rocminfo {{ major_minor_version }}.*
+    - libgl-devel
+    - libopengl-devel
+    - libglx-devel
+    - libegl-devel
 
 outputs:
   - name: hip-runtime-amd
@@ -64,7 +68,7 @@ outputs:
         - {{ compiler('cxx') }}
       host:
         - numactl
-        - rocm-core {{ version }}
+        - rocm-core {{ version }}.*
         - rocm-comgr {{ major_minor_version }}.*
         - rocr-runtime {{ major_minor_version }}.*
       run:
@@ -124,7 +128,7 @@ outputs:
         - llvm-tools
         - perl
         - python *
-        - rocm-core {{ version }}
+        - rocm-core {{ version }}.*
         - rocminfo {{ major_minor_version }}.*
         # rocm-device-libs, lld and clang is required for hipcc compilation
         - rocm-device-libs {{ major_minor_version }}.*
@@ -167,9 +171,9 @@ outputs:
         - {{ compiler('cxx') }}
       host:
         - numactl
-        - rocm-core  {{ version }}
-        - rocm-comgr {{ version }}
-        - rocr-runtime {{ version }}
+        - rocm-core  {{ version }}.*
+        - rocm-comgr {{ version }}.*
+        - rocr-runtime {{ version }}.*
       run:
         - {{ pin_compatible("rocm-comgr") }}
         - {{ pin_compatible("rocr-runtime") }}
