@@ -8,6 +8,9 @@ package:
 source:
   url: https://github.com/RadeonOpenCompute/rocminfo/archive/rocm-{{ version }}.tar.gz
   sha256: cc63d2cbe803f3ee85066fecdcd84a26c7a3f97c0f8c371a7783f5790b4747c3
+  patches:
+    # Backport for https://github.com/ROCm/rocm-systems/pull/743
+    - 743.patch
 
 build:
   number: 0

@@ -130,11 +130,11 @@ outputs:
         - python *
         - rocm-core {{ version }}.*
         - rocminfo {{ major_minor_version }}.*
-        # rocm-device-libs, lld and clang is required for hipcc compilation
+        # rocm-device-libs, lld and clang are required for hipcc compilation
         - rocm-device-libs {{ major_minor_version }}.*
-        - lld {{ llvm_major_version}}.*
-        - clang-tools {{ llvm_major_version}}.*
-        - compiler-rt {{ llvm_major_version}}.*
+        - lld {{ llvm_major_version }}.*
+        - clang-tools {{ llvm_major_version }}.*
+        - compiler-rt {{ llvm_major_version }}.*
   
     files:
       - bin/hipcc
