@@ -1,6 +1,6 @@
 context:
   name: roctracer
-  version: "7.0.1"
+  version: "7.0.2"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   - url: "https://github.com/ROCm/roctracer/archive/refs/tags/rocm-${{ version }}.tar.gz"
-    sha256: c1f435b8040c6d34720eeadf837bc888b1c5aaccbfd7efaff4d602f1957f812f
+    sha256: c9dc54fc8b68a7598b3e9453f7962a87cb02e86d64e5681452ebafd62fb85e96
     patches:
       - disable_tests.patch
       - disable_werror.patch

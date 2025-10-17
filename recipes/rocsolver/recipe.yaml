@@ -1,6 +1,6 @@
 context:
   name: rocsolver
-  version: "7.0.1"
+  version: "7.0.2"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   - url: "https://github.com/ROCm/rocSOLVER/archive/refs/tags/rocm-${{ version }}.tar.gz"
-    sha256: 635bbf625d81e11afc70f6c0e23212ed13ea20ea50cf995d3dfa0e4636c19558
+    sha256: 675c7cdc0e582f93d81d2dcd953ea567f040cbeb300ccd2db61cad4a07ca1d5b
 
 build:
   number: 0

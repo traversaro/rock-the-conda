@@ -1,5 +1,6 @@
 {% set name = "hip" %}
-{% set version = "7.0.1" %}
+{% set version = "7.0.2" %}
+
 {% set major_version = version.split('.')[0] %}
 {% set minor_version = version.split('.')[1] %}
 {% set major_minor_version = ".".join(version.split(".")[:2]) %}
@@ -12,17 +13,17 @@ package:
 
 source:
   - url: https://github.com/ROCm/HIP/archive/refs/tags/rocm-{{ version }}.tar.gz
-    sha256: d34d2bc995e20871692b4bf72313976f03e02d3b1425ca3d02de4d4a9c7de510
+    sha256: 80486998b115e5f61b72913887ccc0507ac332eda4068879bdfb7e3c8611f666
     folder: hip
 
   - url: https://github.com/ROCm/clr/archive/refs/tags/rocm-{{ version }}.tar.gz
-    sha256: 990c37e452930dc273793c6a6826755341fc3adf832a03e735b628e570391aca
+    sha256: b49b1ccbf86ef78f4da5ff13ec3ee94f6133c55db3a95b823577b0808db5f2f1
     folder: clr
     patches:
       - 0001-Mark-raw-strings.patch
 
   - url: https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-{{ version }}.tar.gz
-    sha256: c517a51f8b4c374a3a88d8a6995f197577ef1bed4cb6cc8b28fe8c6016eb11d0
+    sha256: fd612fa750bebd0c3be0ea642b2cae8ff5c7e00a2280b22b9ea16ee86a11d763
     folder: hipcc
     patches:
       - 0001-Make-cmake-rocm-detection-required.patch

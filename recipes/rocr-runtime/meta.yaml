@@ -1,5 +1,6 @@
 {% set name = "rocr-runtime" %}
-{% set version = "7.0.1" %}
+{% set version = "7.0.2" %}
+
 
 package:
   name: {{ name|lower }}
@@ -7,7 +8,7 @@ package:
 
 source:
   url: https://github.com/ROCm/ROCR-Runtime/archive/refs/tags/rocm-{{ version }}.tar.gz
-  sha256: f2004b98683a5b8e25d70034baee0f37a3b24dc1d4737b1c07b7830f4c10189d
+  sha256: 9c2020f7a42d60fe9775865ab58464078007926a3b01f1ca8128557c89e7a566
 
 build:
   number: 0

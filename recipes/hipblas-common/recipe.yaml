@@ -1,6 +1,6 @@
 context:
   name: hipblas-common
-  version: "7.0.1"
+  version: "7.0.2"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   - url: "https://github.com/ROCm/hipBLAS-common/archive/refs/tags/rocm-${{ version }}.tar.gz"
-    sha256: a20e4770a5758e931b7a79c5e0f2a061a1b11195217f74d512cdc764124fc564
+    sha256: 7b8007784831d895fb0a432f366388bc7d212443a25ea9f14eb2aa0a7b4ad5d7
 
 build:
   number: 0

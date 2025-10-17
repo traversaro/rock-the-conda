@@ -1,6 +1,6 @@
 context:
   name: rocprim
-  version: "7.0.1"
+  version: "7.0.2"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   - url: "https://github.com/ROCm/rocPRIM/archive/refs/tags/rocm-${{ version }}.tar.gz"
-    sha256: e4cbdeae91e95e1fb7388c39a8686ec8015599f579190538e6ada8b1dec244c2
+    sha256: bde28c7d08b46ba46d9ab13496d0d63353e4eae0e7e884167c10bccc9ebcb933
 
 build:
   number: 0

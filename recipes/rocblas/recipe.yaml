@@ -1,6 +1,6 @@
 context:
   name: rocblas
-  version: "7.0.1"
+  version: "7.0.2"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   - url: "https://github.com/ROCm/rocBLAS/archive/refs/tags/rocm-${{ version }}.tar.gz"
-    sha256: 337a77cec31927e484672002d245d3aebf7a67e95658a8477fc593c95cf281fb
+    sha256: 8398cda68242db2386abc9eaf00c3588bb27e2b382e29be2bc5624c2d4ac8a99
 
 build:
   number: 0

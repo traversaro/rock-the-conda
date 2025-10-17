@@ -1,6 +1,6 @@
 context:
   name: hipblaslt
-  version: "7.0.1"
+  version: "7.0.2"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   - url: "https://github.com/ROCm/hipBLASlt/archive/refs/tags/rocm-${{ version }}.tar.gz"
-    sha256: 9a38822eea27080dbeab7dd9d39b4bdaeb7c25bc5d19ca6ccf24674c3b34dbae
+    sha256: 52d7c1c6852f501f5bd37fa962e6538592741792593a173d8b6963b8f7bd2c41
     patches:
       - fix_latest_msgpack_cxx.patch
 
