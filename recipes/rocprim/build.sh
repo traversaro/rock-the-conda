@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Workaround for https://github.com/traversaro/rock-the-conda/issues/3#issuecomment-3314729588
-export ROCM_PATH=$PREFIX
-
-cmake -GNinja ${CMAKE_ARGS} -Bbuild -S.
+cmake -GNinja ${CMAKE_ARGS} -DAMDGPU_TARGETS=${CONDA_FORGE_DEFAULT_ROCM_GPU_TARGETS} -Bbuild -S.
 cmake --build ./build
 cmake --install ./build

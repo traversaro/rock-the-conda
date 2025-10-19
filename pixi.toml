@@ -6,8 +6,8 @@ platforms = ["linux-64", "win-64"]
 version = "0.1.0"
 
 [activation.env]
-CONDA_BUILD_ARGS = "-c https://repo.prefix.dev/rock-the-conda -c conda-forge -c local --skip-existing -m ./conda_forge_pinnings/conda_build_config.yaml -m ./recipes/conda_build_config.yaml --output-folder ./output"
-RATTLER_BUILD_ARGS = "-c https://repo.prefix.dev/rock-the-conda -c conda-forge --skip-existing=all -m ./conda_forge_pinnings/conda_build_config.yaml -m ./recipes/conda_build_config.yaml "
+CONDA_BUILD_ARGS = "-c conda-forge -c local --skip-existing -m ./conda_forge_pinnings/conda_build_config.yaml -m ./recipes/conda_build_config.yaml --output-folder ./output"
+RATTLER_BUILD_ARGS = "-c conda-forge --skip-existing=all -m ./conda_forge_pinnings/conda_build_config.yaml -m ./recipes/conda_build_config.yaml "
 
 
 [tasks]
@@ -24,6 +24,7 @@ build-rocm-devices-libs = { cmd = "conda-build ./recipes/rocm-device-libs $CONDA
 build-rocm-comgr = { cmd = "conda-build ./recipes/rocm-comgr $CONDA_BUILD_ARGS", depends-on = ["build-rocm-core", "build-rocm-devices-libs"]  }
 build-rocr-runtime = { cmd = "conda-build ./recipes/rocr-runtime $CONDA_BUILD_ARGS", depends-on = ["build-rocm-core", "build-rocm-devices-libs"]  }
 build-rocminfo = { cmd = "conda-build ./recipes/rocminfo $CONDA_BUILD_ARGS", depends-on = ["build-rocr-runtime", "build-rocm-core"] }
+build-rocminfo-no-deps = { cmd = "conda-build ./recipes/rocminfo $CONDA_BUILD_ARGS" }
 build-hip-no-deps = { cmd = "conda-build ./recipes/hip $CONDA_BUILD_ARGS" }
 build-hip = { cmd = "conda-build ./recipes/hip $CONDA_BUILD_ARGS", depends-on = ["build-rocm-core", "build-rocminfo", "build-rocr-runtime", "build-rocm-comgr"] }
 build-rocm-smi-no-deps = { cmd = "conda-build ./recipes/rocm-smi $CONDA_BUILD_ARGS"}
@@ -38,6 +39,7 @@ build-packages-lightweight = { cmd = "echo 'Lightweight packages build'", depend
 build-rocblas-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocblas"  }
 build-rocsolver-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocsolver"  }
 build-hipblas-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipblas"  }
+build-hipblaslt-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipblaslt"  }
 build-llama-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/llama.cpp"  }
 build-packages = { cmd = "echo 'All packages build'", depends-on = ["build-rocm-core", "build-rocm-cmake", "build-rocm-devices-libs", "build-hip", "build-rocm-smi", "build-all-rattler-build-libraries"] }
 bump-version = { cmd = "python", args = ["recipes/bump_version.py"] }

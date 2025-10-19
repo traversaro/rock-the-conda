@@ -144,6 +144,8 @@ outputs:
       - bin/hipconfig*
       - bin/hipvars.pm
       - share/doc/hipcc/*
+      - etc/conda/activate.d/*
+      - etc/conda/deactivate.d/*
     test:
       commands:
         - export HIP_PLATFORM=amd
@@ -154,7 +156,7 @@ outputs:
         # see https://rocm.docs.amd.com/en/docs-7.0.0/conceptual/cmake-packages.html
         - cmake-package-check hip --targets hip::host hip::device
         - cmake -B./test/test_cmake_enable_hip_build -S./test/test_cmake_enable_hip -GNinja
-        - hipcc --offload-arch=gfx942 ./test/main_hip_smoke_test.hip
+        - hipcc --offload-arch=gfx942 ./test/test_cmake_enable_hip/main_hip_smoke_test.hip
       requires:
         - cmake-package-check
         - {{ compiler('c') }}

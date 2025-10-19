@@ -43,8 +43,10 @@ test:
   files:
     - test/hip_smoke_test.hip
   commands:
-    # Check files are in the expected location
+    # Check files are in the expected location (the one expected by clang)
     - test -f $PREFIX/lib/clang/{{ llvm_major_version }}/lib/amdgcn/bitcode/hip.bc
+    # Check files are in the location expected by hipcc
+    - test -f $PREFIX/amdgcn/bitcode/hip.bc
     # Test that clang can find the bitcode files out of the box
     - clang -x hip -nogpuinc -c ./test/hip_smoke_test.hip -o ./test/hip_smoke_test.o
 

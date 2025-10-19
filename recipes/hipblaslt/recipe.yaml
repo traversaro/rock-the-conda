@@ -44,6 +44,7 @@ requirements:
     - rocm-smi
     # Needed for rocroller
     - spdlog
+    - llvmdev 20.*
     - lld 20.*
     - zlib
   run_exports:
