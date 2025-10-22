@@ -12,13 +12,16 @@ source:
 
 build:
   number: 0
-  skip: not linux
+  skip: 
+    - not linux
+    - hip_compiler_version in (None, "None")
 
 requirements:
   build:
     - ${{ compiler('c') }}
     - ${{ stdlib('c') }}
     - ${{ compiler('cxx') }}
+    - ${{ compiler('hip') }}
     # Note: fortran is only required on Linux
     - ${{ compiler('fortran') }}
     - cmake
@@ -31,7 +34,6 @@ requirements:
     - rocm-cmake
     - rocm-smi
     - hipblaslt
-    - hipcc
     - roctracer
     - hipblas-common
     - rocblas

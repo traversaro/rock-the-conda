@@ -1,0 +1,30 @@
+From e91c83815ac7789757417d0a47a92d27e5874b43 Mon Sep 17 00:00:00 2001
+From: Flora Cui <flora.cui@amd.com>
+Date: Thu, 9 Oct 2025 14:27:23 +0800
+Subject: [PATCH] rocminfo: early detect absence of unsupported GPU in wsl
+
+Add an early check in WSL to detect when no supported GPU is available.
+otherwise rocm_agent_enumerator will keep retrying rocminfo for one
+minute, causing unnecessary delay.
+
+Signed-off-by: Flora Cui <flora.cui@amd.com>
+---
+ rocminfo.cc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/rocminfo.cc b/rocminfo.cc
+index 5ea248e9541..a16a9badcad 100644
+--- a/rocminfo.cc
++++ b/rocminfo.cc
+@@ -1321,6 +1321,11 @@ int main() {
+     return 1;
+   }
+   err = hsa_init();
++  if (wsl_env && (err != HSA_STATUS_SUCCESS)) {
++    printf("%shsa_init Failed, possibly no supported GPU devices%s\n",
++                                                            COL_RED, COL_RESET);
++    return 1;
++  }
+   RET_IF_HSA_ERR(err)
+ 
+   // Acquire and display system information

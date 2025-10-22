@@ -1,8 +1,5 @@
-export HIP_PATH_CONDA_BACKUP=${HIP_PATH:-}
-export HIP_PATH=$CONDA_PREFIX
-
-export HIP_CLANG_PATH_CONDA_BACKUP=${HIP_CLANG_PATH:-}
-export HIP_CLANG_PATH=$CONDA_PREFIX/bin
+export HIPCXX_CONDA_BACKUP=${HIPCXX:-}
+export HIPCXX=$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-clang-cpp
 
 # This env variable specified the default ROCM GPU targets used
 # by conda-forge packages, downstream packages can override it if needed.
@@ -18,4 +15,5 @@ export HIP_CLANG_PATH=$CONDA_PREFIX/bin
 # for performance reason, the downstream recipe needs to expand the related element, i.e. change gfx908 to gfx908:xnack+;gfx908:xnack-
 export CONDA_FORGE_DEFAULT_ROCM_GPU_TARGETS_CONDA_BACKUP=${CONDA_FORGE_DEFAULT_ROCM_GPU_TARGETS:-}
 export CONDA_FORGE_DEFAULT_ROCM_GPU_TARGETS="gfx908;gfx90a;gfx942;gfx950;gfx1030;gfx1100;gfx1101;gfx1102;gfx1150;gfx1151;gfx1200;gfx1201"
+
 

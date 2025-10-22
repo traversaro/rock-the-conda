@@ -32,6 +32,7 @@ build-rocm-smi = { cmd = "conda-build ./recipes/rocm-smi $CONDA_BUILD_ARGS", dep
 build-all-rattler-build-libraries-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes"  }
 build-all-rattler-build-libraries = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes", depends-on = ["build-rocm-core", "build-hip", "build-rocminfo", "build-rocr-runtime", "build-rocm-comgr"] }
 build-rocprim = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocprim", depends-on = ["build-hip", "build-rocm-core"]  }
+build-rocfft-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocfft" }
 build-rocfft = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocfft", depends-on = ["build-hip", "build-rocm-core"]  }
 build-hipfft = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipfft", depends-on = ["build-hip", "build-rocm-core", "build-rocfft"]  }
 # This task is used to build all the packages in the packages list that are buildable on a GitHub Action node (so excluding hipblaslt and all the packages that depend on it)

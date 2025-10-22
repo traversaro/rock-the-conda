@@ -62,8 +62,8 @@ build:
 
         {%- if rocm_version != "None" %}
         ${{ ggml_args("HIP=ON") }}
-        ${{ cmake_args("CMAKE_HIP_ARCHITECTURES=gfx942;gfx950;gfx1010;gfx1012;gfx1030;gfx1100;gfx1101;gfx1102;gfx1151;gfx1200;gfx1201") }}
-        ${{ cmake_args("CMAKE_HIP_COMPILER=$PREFIX/bin/clang") }}
+        ${{ cmake_args("CMAKE_HIP_ARCHITECTURES=$CONDA_FORGE_DEFAULT_ROCM_GPU_TARGETS") }}
+        ${{ cmake_args("CMAKE_HIP_COMPILER=$HIPCXX") }}
 
         {%- endif %}
 
@@ -140,6 +140,9 @@ requirements:
     - if: cuda_compiler_version != "None"
       then:
         - ${{ compiler('cuda') }}
+    - if: rocm_version != "None"
+      then:
+        - ${{ compiler('hip') }}
     - cmake
     - git
     - ninja
@@ -164,7 +167,6 @@ requirements:
       then:
         # Mutex package to specify rocm version
         - rocm-core ${{ rocm_version }}.*
-        - hipcc
         - rocminfo
         - rocblas
         - hipblas

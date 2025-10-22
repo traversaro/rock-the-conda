@@ -12,21 +12,34 @@ source:
 
 build:
   number: 0
-  skip: not linux
+  skip: 
+    - not linux
+    - hip_compiler_version in (None, "None")
 
 requirements:
   build:
     - ${{ compiler('c') }}
     - ${{ stdlib('c') }}
     - ${{ compiler('cxx') }}
+    - ${{ compiler('hip') }}
     - cmake
     - pkg-config
     - ninja
+    # Needed for tensilite
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+    - msgpack-python
+    - joblib
+    - pyyaml
+    - packaging
+    # Needed to clone locally tensile and patch it
+    - git
+    - sed
   host:
     - rocm-core ${{ version }}.*
     - rocm-cmake
     - rocm-smi
-    - hipcc
     - roctracer
     - hipblas-common
     - hipblaslt

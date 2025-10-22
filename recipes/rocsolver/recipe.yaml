@@ -12,20 +12,22 @@ source:
 
 build:
   number: 0
-  skip: not linux
+  skip: 
+    - not linux
+    - hip_compiler_version in (None, "None")
 
 requirements:
   build:
     - ${{ compiler('c') }}
     - ${{ stdlib('c') }}
     - ${{ compiler('cxx') }}
+    - ${{ compiler('hip') }}
     - cmake
     - pkg-config
     - ninja
   host:
     - rocm-core ${{ version }}.*
     - rocm-cmake
-    - hipcc
     - rocblas
     - rocprim
   run_exports:

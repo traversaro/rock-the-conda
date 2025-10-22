@@ -12,6 +12,8 @@ source:
   patches:
     # Backport for https://github.com/ROCm/rocm-systems/pull/743
     - patches/743.patch
+    # Backport for 
+    - patches/1317.patch
 
 build:
   number: 0

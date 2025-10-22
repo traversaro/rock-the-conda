@@ -37,12 +37,14 @@ fi
 echo "Original CONDA_FORGE_DEFAULT_ROCM_GPU_TARGETS: ${CONDA_FORGE_DEFAULT_ROCM_GPU_TARGETS}"
 echo "AMDGPU_TARGETS option passed after adding xnack variants for gfx908 and gfx90a: ${AMDGPU_TARGETS_EXPANDED}"
 
-# A lot of part of the build system hardcode amdclang++ as compiler, let's temporary
+# A lot of part of the build system hardcode amdclang++ as compiler and assume that is in $PREFIX, let's temporary
 # add a symlink with this name, see https://github.com/ROCm/rocm-libraries/issues/944
-ln -sf -- "$CXX" "$PREFIX/bin/amdclang++"
-ln -sf -- "$CC" "$PREFIX/bin/amdclang"
+env
 
-cmake -GNinja ${CMAKE_ARGS} -DAMDGPU_TARGETS="${AMDGPU_TARGETS_EXPANDED}" -Bbuild -S.
+ln -sf -- "$HIPCXX" "$PREFIX/bin/amdclang++"
+ln -sf -- "$HIPCXX" "$PREFIX/bin/amdclang"
+
+cmake -GNinja ${CMAKE_ARGS} -DAMDGPU_TARGETS="${AMDGPU_TARGETS_EXPANDED}" -DPython_EXECUTABLE=$PYTHON -Bbuild -S.
 cmake --build ./build
 cmake --install ./build
 
