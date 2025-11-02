@@ -161,6 +161,9 @@ outputs:
     requirements:
       run:
         - {{ pin_subpackage("hipcc", exact=True) }}
+    run_exports:
+      strong:
+        - {{ pin_subpackage("hip-runtime-amd") }}
     files:
       - etc/conda/activate.d/hip-clang_activate.sh
       - etc/conda/deactivate.d/hip-clang_deactivate.sh

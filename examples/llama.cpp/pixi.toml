@@ -1,23 +1,22 @@
 [workspace]
 authors = ["Silvio Traversaro <silvio@traversaro.it>"]
-channels = ["https://repo.prefix.dev/rock-the-conda", "https://repo.prefix.dev/conda-forge"]
+channels = ["https://prefix.dev/rock-the-conda", "https://prefix.dev/conda-forge"]
 name = "llama.cpp"
 platforms = ["linux-64"]
-version = "0.1.0"
 
 [dependencies]
 
 # Workaround for missing run_exports, will be fixed in next rebuild
-"llama.cpp" = { version = "*", build = "*rocm*" }
+"llama.cpp" = { version = "6904.*", build = "*rocm*" }
 hipblas = "*"
 rocblas = "*"
 roctracer = "*"
 rocsolver = "*"
-
+rocm-core = "7.0.2.*"
 curl = "*"
 
 [feature.cpu.dependencies]
-"llama.cpp" = { version = "*", build = "*cpu*" }
+"llama.cpp" = { version = "6904.*", build = "*cpu*" }
 curl = "*"
 
 [feature.tasks.tasks]

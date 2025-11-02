@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "6441"
+  version: "6904"
   build: 0
 
 package:
@@ -9,15 +9,14 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version | split(".") | list | last }}.tar.gz
-  sha256: e5779ac94f3c8e32ffcc610cf4227af9637e6e81566f0ac1c0f8f7d39986cc24
-  patches:
-    - 0001-Change-gpuAddress-for-contents.patch
+  sha256: b0a32d8dd439fdda590527fa14e61361048cf14e9826c78843baf41bcdc9955b
+
 
 build:
   number: ${{ build }}
-  string: '{%- if cuda_compiler_version != "None" -%}cuda${{ cuda_compiler_version | replace(".", "") }}_h${{ hash }}_${{ build }}{%- elif rocm_version != "None" -%}rocm${{ rocm_version | replace(".", "") }}_h${{ hash }}_${{ build }}{%- elif (osx and x86_64) or cuda_compiler_version == "None" -%}cpu_${{ blas_impl }}_h${{ hash }}_${{ build }}{%- elif osx and arm64 -%}mps_h${{ hash }}_${{ build }}{%- endif -%}'
+  string: '{%- if cuda_compiler_version != "None" -%}cuda${{ cuda_compiler_version | replace(".", "") }}_h${{ hash }}_${{ build }}{%- elif hip_compiler_version != "None" -%}rocm${{ rocm_version | replace(".", "") }}_h${{ hash }}_${{ build }}{%- elif (osx and x86_64) or cuda_compiler_version == "None" -%}cpu_${{ blas_impl }}_h${{ hash }}_${{ build }}{%- elif osx and arm64 -%}mps_h${{ hash }}_${{ build }}{%- endif -%}'
   # Only build rocm variant (rock-the conda specific change, remove if the changes are upstreamed)
-  skip: rocm_version == "None"
+  skip: hip_compiler_version == "None"
 
   script:
     - if: unix
@@ -60,14 +59,14 @@ build:
         ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=all") }}
         {%- endif %}
 
-        {%- if rocm_version != "None" %}
+        {%- if hip_compiler_version != "None" %}
         ${{ ggml_args("HIP=ON") }}
         ${{ cmake_args("CMAKE_HIP_ARCHITECTURES=$CONDA_FORGE_DEFAULT_ROCM_GPU_TARGETS") }}
         ${{ cmake_args("CMAKE_HIP_COMPILER=$HIPCXX") }}
 
         {%- endif %}
 
-        {%- if linux and x86_64 and cuda_compiler_version == "None" and rocm_version == "None" %}
+        {%- if linux and x86_64 and cuda_compiler_version == "None" and hip_compiler_version == "None" %}
         ${{ ggml_args("BLAS=ON") }}
 
         {%- if blas_impl == "mkl" %}
@@ -140,7 +139,7 @@ requirements:
     - if: cuda_compiler_version != "None"
       then:
         - ${{ compiler('cuda') }}
-    - if: rocm_version != "None"
+    - if: hip_compiler_version != "None"
       then:
         - ${{ compiler('hip') }}
     - cmake
@@ -158,12 +157,12 @@ requirements:
             - cuda-cudart-dev ${{ cuda_compiler_version }}.*
             - libcublas-dev ${{ cuda_compiler_version }}.*
 
-    - if: (not osx) and (cuda_compiler_version == "None" and rocm_version == "None") and (blas_impl == "mkl")
+    - if: (not osx) and (cuda_compiler_version == "None" and hip_compiler_version == "None") and (blas_impl == "mkl")
       then:
         - blas-devel * *_${{ blas_impl }}
         - mkl-devel ${{ mkl }}.*
 
-    - if: rocm_version != "None"
+    - if: hip_compiler_version != "None"
       then:
         # Mutex package to specify rocm version
         - rocm-core ${{ rocm_version }}.*
@@ -219,7 +218,6 @@ tests:
           - check_file "$PREFIX/bin/llama-gguf" "llama-gguf"
           - check_file "$PREFIX/bin/llama-gguf-hash" "llama-gguf-hash"
           - check_file "$PREFIX/bin/llama-gguf-split" "llama-gguf-split"
-          - check_file "$PREFIX/bin/llama-gritlm" "llama-gritlm"
           - check_file "$PREFIX/bin/llama-imatrix" "llama-imatrix"
           - check_file "$PREFIX/bin/llama-lookahead" "llama-lookahead"
           - check_file "$PREFIX/bin/llama-lookup" "llama-lookup"
@@ -278,19 +276,19 @@ tests:
           - check_file "$PREFIX/lib/libggml${SHLIB_EXT}" "libggml${SHLIB_EXT}"
           - check_file "$PREFIX/lib/libllama${SHLIB_EXT}" "libllama${SHLIB_EXT}"
           - check_file "$PREFIX/lib/libmtmd${SHLIB_EXT}" "libmtmd${SHLIB_EXT}"
-
+          
         # CUDA libraries
           - if: cuda_compiler_version != "None"
             then:
               - check_file "$PREFIX/lib/libggml-cuda${SHLIB_EXT}" "libggml-cuda${SHLIB_EXT}"
 
         # ROCM libraries
-          - if: rocm_version != "None"
+          - if: hip_compiler_version != "None"
             then:
               - check_file "$PREFIX/lib/libggml-hip${SHLIB_EXT}" "libggml-hip${SHLIB_EXT}"
 
         # Packaged everywhere but for CUDA/ROCM builds and on linux_aarch64
-          - if: (not (linux and aarch64)) and (cuda_compiler_version == "None") and (rocm_version == "None")
+          - if: (not (linux and aarch64)) and (cuda_compiler_version == "None") and (hip_compiler_version == "None")
             then:
               - check_file "$PREFIX/lib/libggml-blas${SHLIB_EXT}" "libggml-blas${SHLIB_EXT}"
 

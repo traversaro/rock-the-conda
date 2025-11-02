@@ -45,7 +45,8 @@ build-llama-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-
 build-packages = { cmd = "echo 'All packages build'", depends-on = ["build-rocm-core", "build-rocm-cmake", "build-rocm-devices-libs", "build-hip", "build-rocm-smi", "build-all-rattler-build-libraries"] }
 bump-version = { cmd = "python", args = ["recipes/bump_version.py"] }
 clean = "rm -rf feedstocks conda-bld"
-
+# Upload all build packages to rock-the-conda channel, needs pixi auth login before
+upload-all = { cmd = "python recipes/upload_all.py" }
 
 # Tasks for building TheRock inside a conda environment with conda compilers
 download-therock-all = { cmd = "python ./build_tools/fetch_sources.py", cwd = "TheRock", depends-on = ["download-therock-base"] }

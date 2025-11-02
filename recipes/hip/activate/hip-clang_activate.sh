@@ -1,5 +1,5 @@
 export HIPCXX_CONDA_BACKUP=${HIPCXX:-}
-export HIPCXX=$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-clang-cpp
+export HIPCXX=$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-clang
 
 # This env variable specified the default ROCM GPU targets used
 # by conda-forge packages, downstream packages can override it if needed.
