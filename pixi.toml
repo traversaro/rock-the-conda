@@ -46,6 +46,8 @@ build-composable-kernel-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_AR
 build-composable-kernel = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/composable-kernel", depends-on = ["build-hip", "build-rocm-core"] }
 build-rocrand-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocrand" }
 build-rocrand = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocrand", depends-on = ["build-hip", "build-rocm-core"] }
+build-miopen-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/miopen" }
+build-miopen = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/miopen", depends-on = ["build-hip", "build-rocblas", "build-composable-kernel"] }
 build-packages = { cmd = "echo 'All packages build'", depends-on = ["build-rocm-core", "build-rocm-cmake", "build-rocm-devices-libs", "build-hip", "build-rocm-smi", "build-all-rattler-build-libraries"] }
 bump-version = { cmd = "python", args = ["recipes/bump_version.py"] }
 clean = "rm -rf feedstocks conda-bld"
