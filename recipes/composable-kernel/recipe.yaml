@@ -32,8 +32,12 @@ requirements:
 
 tests:
   - package_contents:
+      include:
+        - ck/library/reference_tensor_operation/cpu/reference_gemm
+        - ck/library/reference_tensor_operation/gpu/reference_gemm.hpp
+        - ck/library/tensor_operation_instance/gpu/grouped_gemm.hpp
       lib:
-        - libcomposable_kernel
+        - libdevice_conv_operations.a
 
 about:
   repository: https://github.com/ROCm/composable_kernel
