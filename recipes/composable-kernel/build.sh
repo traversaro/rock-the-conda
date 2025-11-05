@@ -38,7 +38,4 @@ done
 echo "Building composablekernel"
 cmake --build . --target composablekernel -j2 || echo "WARNING: Failed to link composablekernel"
 
-# Remove libutility.a from install targets (it's not built)
-sed -i '/  \.a/d' library/src/utility/cmake_install.cmake 2>/dev/null || true
-
 cmake --install .
