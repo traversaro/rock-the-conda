@@ -3,7 +3,7 @@ set -euo pipefail
 
 CONDA_FORGE_DEFAULT_ROCM_GPU_TARGETS="gfx11-generic"
 export CMAKE_HIP_FLAGS="${CMAKE_HIP_FLAGS:-} -O2 -mcode-object-version=6"
-export CMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS:-} -O2 -mcode-object-version=6"
+export CMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS:-} -O2 -mcode-object-version=6 -ftemplate-backtrace-limit=0  -fPIE  -Wno-gnu-line-marker -fbracket-depth=512"
 
 mkdir -p build
 cd build
@@ -19,23 +19,11 @@ cmake -GNinja \
     -DGPU_ARCHS=${CONDA_FORGE_DEFAULT_ROCM_GPU_TARGETS} \
     -DMIOPEN_REQ_LIBS_ONLY=ON \
     -DBUILD_DEV=OFF \
+    -DDISABLE_DL_KERNELS=ON \
+    -DDISABLE_DPP_KERNELS=ON \
     -DBUILD_TESTING=OFF \
     -DENABLE_CLANG_CPP_CHECKS=OFF \
     ..
 
-# List all valid device_* targets (strip any trailing colons)
-mapfile -t targets < <(cmake --build . --target help | grep -o 'device_[^ ]*' | sed 's/:$//' | sort -u)
-
-# Build each target sequentially to reduce memory use
-for target in "${targets[@]}"; do
-  echo "=== Building ${target} ==="
-  if ! cmake --build . --target "${target}" -j2; then
-    echo "WARNING: Skipping ${target} due to failure"
-  fi
-done
-
-# Build the main library and install
-echo "Building composablekernel"
-cmake --build . --target composablekernel -j2 || echo "WARNING: Failed to link composablekernel"
-
+cmake --build . -- -j4
 cmake --install .
