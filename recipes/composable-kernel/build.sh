@@ -16,5 +16,6 @@ cmake -GNinja \
     -DENABLE_CLANG_CPP_CHECKS=OFF \
     ..
 
+# Limit to 4 parallel jobs to avoid OOM issues
 cmake --build . -- -j4
 cmake --install .
