@@ -1,0 +1,54 @@
+context:
+  name: rocrand
+  version: "7.0.2"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ROCm/rocRAND/archive/refs/tags/rocm-${{ version }}.tar.gz
+  sha256: ee0fee0ee7d3b59aafba8f9935c28c528363f941b42eea05045023c27e61938d
+
+build:
+  number: 0
+  skip:
+    - not linux
+    - hip_compiler_version in (None, "None")
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('hip') }}
+    - cmake
+    - ninja
+  host:
+    - rocm-core ${{ version }}.*
+    - rocm-cmake
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound="x.x") }}
+
+tests:
+  - package_contents:
+      include:
+        - rocrand/rocrand.h
+        - rocrand/rocrand_xorwow.h
+      lib:
+        - librocrand${{ dso_ext }}
+
+about:
+  repository: https://github.com/ROCm/rocRAND
+  license: MIT
+  license_file: LICENSE.txt
+  summary: "ROCm random number generation library"
+  description: |
+    rocRAND is a library for generating pseudo-random and quasi-random numbers
+    on AMD GPUs using the ROCm platform. It provides implementations of various
+    random number generators including XORWOW, MRG32K3A, MTGP32, Philox, and Sobol.
+
+extra:
+  recipe-maintainers:
+    - flferretti
+    - conda-forge/rocm-core
