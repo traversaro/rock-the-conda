@@ -1,6 +1,7 @@
 context:
-  name: miopen
+  name: miopen-hip
   version: "7.0.2"
+  llvm_major_version: "20"
 
 package:
   name: ${{ name|lower }}
@@ -24,27 +25,41 @@ requirements:
     - ${{ compiler('hip') }}
     - cmake
     - ninja
+    # Needed by rocm_check_target_ids CMake function
+    - lld ${{ llvm_major_version }}.*
   host:
     - rocm-core ${{ version }}.*
-    - hip-devel
-    - rocblas
-    - composable-kernel ${{ version }}.*
     - rocm-cmake
+    - hip-devel
+    - hipcc
+    - rocblas
+    - hipblas-common
+    - hipblaslt
+    - rocrand
+    - composable-kernel ${{ version }}.*
     - sqlite
-    - boost-cpp
+    - libboost-devel
     - nlohmann_json
+    - bzip2
+    - roctracer
+    - cpp-half
   run:
     - hip-runtime-amd
     - rocblas
+    - hipblaslt
     - composable-kernel
     - sqlite
+    - bzip2
   run_exports:
     - ${{ pin_subpackage(name, upper_bound="x.x") }}
 
 tests:
   - package_contents:
+      include:
+        - miopen/miopen.h
+        - miopen/config.h
       lib:
-        - libMIOpen
+        - libMIOpen${{ dso_ext }}
 
 about:
   repository: https://github.com/ROCm/MIOpen
