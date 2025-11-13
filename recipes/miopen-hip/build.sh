@@ -38,3 +38,7 @@ cmake -GNinja \
 
 cmake --build . -j${CPU_COUNT}
 cmake --install .
+
+# Clean up the symlink created for the build to avoid shipping it
+rm -f -- "${PREFIX}/include/half/half.hpp"
+rmdir -- "${PREFIX}/include/half" 2>/dev/null || true
