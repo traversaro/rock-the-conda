@@ -1,0 +1,77 @@
+context:
+  name: miopen-hip
+  version: "7.0.2"
+  llvm_major_version: "20"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ROCm/MIOpen/archive/refs/tags/rocm-${{ version }}.tar.gz
+  sha256: f8e0fbc7e007d8b37b47a9369a9f849ab708d4fd8681a70c4f545d7ed1aa3ba0
+
+build:
+  number: 0
+  skip:
+    - not linux
+    - hip_compiler_version in (None, "None")
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('hip') }}
+    - cmake
+    - ninja
+    # Needed by rocm_check_target_ids CMake function
+    - lld ${{ llvm_major_version }}.*
+  host:
+    - rocm-core ${{ version }}.*
+    - rocm-cmake
+    - hip-devel
+    - hipcc
+    - rocblas
+    - hipblas-common
+    - hipblaslt
+    - rocrand
+    - composable-kernel ${{ version }}.*
+    - sqlite
+    - libboost-devel
+    - nlohmann_json
+    - bzip2
+    - roctracer
+    - cpp-half
+  run:
+    - hip-runtime-amd
+    - rocblas
+    - hipblaslt
+    - composable-kernel
+    - sqlite
+    - bzip2
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound="x.x") }}
+
+tests:
+  - package_contents:
+      include:
+        - miopen/miopen.h
+        - miopen/config.h
+      lib:
+        - libMIOpen${{ dso_ext }}
+
+about:
+  repository: https://github.com/ROCm/MIOpen
+  license: MIT
+  license_file: LICENSE.txt
+  summary: "AMD's Machine Intelligence Library for ROCm (HIP backend)"
+  description: |
+    MIOpen is AMD's library for high performance machine learning primitives.
+    It provides highly optimized implementations of deep learning operations
+    for AMD GPUs using the HIP programming model.
+
+extra:
+  recipe-maintainers:
+    - flferretti
+    - conda-forge/rocm-core
