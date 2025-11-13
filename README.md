@@ -36,6 +36,9 @@ The recipe to build are configured in `recipes` folder and build in order the fo
 - `rocblas`
 - `rocsolver`
 - `hipblas`
+- `rocrand`
+- `composable-kernel`
+- `miopen-hip`
 
 And the following downstream packages that uses `rocm`:
 - `llama.cpp`
