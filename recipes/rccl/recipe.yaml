@@ -1,0 +1,61 @@
+context:
+  name: rccl
+  version: "7.0.2"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ROCm/rccl/archive/refs/tags/rocm-${{ version }}.tar.gz
+  sha256: 3e4363163f5de772707c8deea349a00744200733693c76a07ac842e55b6ad19e
+
+build:
+  number: 0
+  skip:
+    - not linux
+    - hip_compiler_version in (None, "None")
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('hip') }}
+    - cmake
+    - ninja
+    - git
+    - hipify
+  host:
+    - rocm-core ${{ version }}.*
+    - rocm-cmake
+    - rocm-smi
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound="x.x") }}
+
+tests:
+  - package_contents:
+      include:
+        - rccl/rccl.h
+      lib:
+        - rccl
+
+about:
+  repository: https://github.com/ROCm/rccl
+  homepage: https://rocm.docs.amd.com/projects/rccl/en/latest/
+  license: BSD-3-Clause AND Apache-2.0
+  license_file:
+    - LICENSE.txt
+    - NOTICES.txt
+  summary: "ROCm Communication Collectives Library"
+  description: |
+    RCCL (ROCm Communication Collectives Library) is a stand-alone library of standard
+    collective communication routines for GPUs, implementing all-reduce, all-gather, reduce,
+    broadcast, reduce-scatter, gather, scatter, and all-to-all. It has been optimized to
+    achieve high bandwidth on platforms using PCIe, xGMI as well as networking using
+    InfiniBand Verbs or TCP/IP sockets.
+
+extra:
+  recipe-maintainers:
+    - flferretti
+    - conda-forge/rocm-core
