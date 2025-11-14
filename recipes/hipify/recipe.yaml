@@ -1,0 +1,41 @@
+context:
+  name: hipify
+  version: "7.0.2"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ROCm/HIPIFY/archive/refs/tags/rocm-${{ version }}.tar.gz
+  sha256: d6e78b025c2cb36f9470d1ec572adc8abc7f2c79bb9a5e21cf46fabd305c4b9c
+
+build:
+  number: 0
+  noarch: generic
+  skip:
+    - not linux
+
+requirements:
+  run:
+    - perl
+
+tests:
+  - script:
+      - hipify-perl --help
+
+about:
+  repository: https://github.com/ROCm/HIPIFY
+  homepage: https://rocm.docs.amd.com/projects/HIPIFY/en/latest/
+  license: MIT
+  license_file: LICENSE.txt
+  summary: "CUDA to HIP source translator (Perl implementation)"
+  description: |
+    hipify-perl is a Perl script that converts CUDA code to HIP code.
+    It is part of the HIPIFY toolset for porting CUDA applications to HIP.
+    This package provides the Perl-based translator used by RCCL and other ROCm tools.
+
+extra:
+  recipe-maintainers:
+    - flferretti
+    - conda-forge/rocm-core
