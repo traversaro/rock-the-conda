@@ -1,0 +1,57 @@
+context:
+  name: hipsolver
+  version: "7.0.2"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ROCm/hipSOLVER/archive/refs/tags/rocm-${{ version }}.tar.gz
+  sha256: eac1a691bdc00ceb50580c1dab6cbffd6c7d579ebbad145857f58c4de84a3cae
+
+build:
+  number: 0
+  skip:
+    - not linux
+    - hip_compiler_version in (None, "None")
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('hip') }}
+    - ${{ compiler('fortran') }}
+    - cmake
+    - ninja
+  host:
+    - rocm-core ${{ version }}.*
+    - rocm-cmake
+    - rocsolver
+    - rocblas
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound="x.x") }}
+
+tests:
+  - package_contents:
+      include:
+        - hipsolver/hipsolver.h
+      lib:
+        - hipsolver
+
+about:
+  repository: https://github.com/ROCm/hipSOLVER
+  homepage: https://rocm.docs.amd.com/projects/hipSOLVER/en/latest/
+  license: MIT
+  license_file: LICENSE.md
+  summary: "ROCm LAPACK marshalling library"
+  description: |
+    hipSOLVER is a LAPACK marshalling library with multiple supported backends.
+    It sits between your application and a 'worker' LAPACK library, where it marshals
+    inputs to the backend library and marshals results to the application.
+
+extra:
+  recipe-maintainers:
+    - flferretti
+    - conda-forge/rocm-core
