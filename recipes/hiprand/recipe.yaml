@@ -37,7 +37,7 @@ tests:
       include:
         - hiprand/hiprand.h
       lib:
-        - libhiprand${{ dso_ext }}
+        - hiprand
 
 about:
   repository: https://github.com/ROCm/hipRAND
