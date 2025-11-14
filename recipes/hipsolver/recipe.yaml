@@ -38,7 +38,7 @@ tests:
       include:
         - hipsolver/hipsolver.h
       lib:
-        - libhipsolver${{ dso_ext }}
+        - hipsolver
 
 about:
   repository: https://github.com/ROCm/hipSOLVER
