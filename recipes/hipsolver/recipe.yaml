@@ -28,12 +28,6 @@ requirements:
   host:
     - rocm-core ${{ version }}.*
     - rocm-cmake
-    - hip-devel
-    - hipcc
-    - rocsolver
-    - rocblas
-  run:
-    - hip-runtime-amd
     - rocsolver
     - rocblas
   run_exports:
