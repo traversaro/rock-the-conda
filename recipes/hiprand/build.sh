@@ -7,10 +7,7 @@ cd build
 
 cmake \
     -GNinja \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
-    -DCMAKE_INSTALL_LIBDIR=lib \
-    -DCMAKE_PREFIX_PATH="${PREFIX}" \
+    ${CMAKE_ARGS} \
     -DBUILD_TEST=OFF \
     -DBUILD_BENCHMARK=OFF \
     -DBUILD_EXAMPLE=OFF \

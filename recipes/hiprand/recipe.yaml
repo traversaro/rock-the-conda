@@ -28,11 +28,6 @@ requirements:
   host:
     - rocm-core ${{ version }}.*
     - rocm-cmake
-    - hip-devel
-    - hipcc
-    - rocrand
-  run:
-    - hip-runtime-amd
     - rocrand
   run_exports:
     - ${{ pin_subpackage(name, upper_bound="x.x") }}
