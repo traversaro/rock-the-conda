@@ -27,11 +27,6 @@ requirements:
   host:
     - rocm-core ${{ version }}.*
     - rocm-cmake
-    - hip-devel
-    - hipcc
-    - rocprim
-  run:
-    - hip-runtime-amd
     - rocprim
   run_exports:
     - ${{ pin_subpackage(name, upper_bound="x.x") }}
