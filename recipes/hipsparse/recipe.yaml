@@ -1,0 +1,61 @@
+context:
+  name: hipsparse
+  version: "7.0.2"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ROCm/hipSPARSE/archive/refs/tags/rocm-${{ version }}.tar.gz
+  sha256: 8f2d187ef9a44e58538a7bf3298b245e740066c74e431da01c38ed35fad649fc
+
+build:
+  number: 0
+  skip:
+    - not linux
+    - hip_compiler_version in (None, "None")
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('hip') }}
+    - ${{ compiler('fortran') }}
+    - cmake
+    - ninja
+  host:
+    - rocm-core ${{ version }}.*
+    - rocm-cmake
+    - hip-devel
+    - hipcc
+    - rocsparse
+  run:
+    - hip-runtime-amd
+    - rocsparse
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound="x.x") }}
+
+tests:
+  - package_contents:
+      include:
+        - hipsparse/hipsparse.h
+      lib:
+        - libhipsparse${{ dso_ext }}
+
+about:
+  repository: https://github.com/ROCm/hipSPARSE
+  homepage: https://rocm.docs.amd.com/projects/hipSPARSE/en/latest/
+  license: MIT
+  license_file: LICENSE.md
+  summary: "ROCm SPARSE marshalling library"
+  description: |
+    hipSPARSE is a SPARSE marshalling library with multiple supported backends.
+    It sits between your application and a 'worker' SPARSE library, where it marshals
+    inputs to the backend library and marshals results to the application.
+
+extra:
+  recipe-maintainers:
+    - flferretti
+    - conda-forge/rocm-core
