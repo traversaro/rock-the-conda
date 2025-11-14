@@ -1,0 +1,56 @@
+context:
+  name: hiprand
+  version: "7.0.2"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ROCm/hipRAND/archive/refs/tags/rocm-${{ version }}.tar.gz
+  sha256: 0c7d18e55fd61070f3bd05b09217caf32c0cb502234b7d732562325b09c9483b
+
+build:
+  number: 0
+  skip:
+    - not linux
+    - hip_compiler_version in (None, "None")
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('hip') }}
+    - ${{ compiler('fortran') }}
+    - cmake
+    - ninja
+  host:
+    - rocm-core ${{ version }}.*
+    - rocm-cmake
+    - rocrand
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound="x.x") }}
+
+tests:
+  - package_contents:
+      include:
+        - hiprand/hiprand.h
+      lib:
+        - hiprand
+
+about:
+  repository: https://github.com/ROCm/hipRAND
+  homepage: https://rocm.docs.amd.com/projects/hipRAND/en/latest/
+  license: MIT
+  license_file: LICENSE.txt
+  summary: "ROCm RAND marshalling library"
+  description: |
+    hipRAND is a RAND marshalling library with multiple supported backends.
+    It sits between your application and the backend RAND library, where it marshals
+    inputs to the backend and results to the application.
+
+extra:
+  recipe-maintainers:
+    - flferretti
+    - conda-forge/rocm-core

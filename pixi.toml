@@ -48,6 +48,8 @@ build-rocrand-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recip
 build-rocrand = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocrand", depends-on = ["build-hip", "build-rocm-core"] }
 build-rocsparse-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocsparse" }
 build-rocsparse = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocsparse", depends-on = ["build-hip", "build-rocm-core", "build-rocprim"] }
+build-hiprand-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hiprand" }
+build-hiprand = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hiprand", depends-on = ["build-hip", "build-rocm-core", "build-rocrand"] }
 build-hipsparse-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipsparse" }
 build-hipsparse = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipsparse", depends-on = ["build-hip", "build-rocm-core", "build-rocsparse"] }
 build-miopen-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/miopen-hip" }
