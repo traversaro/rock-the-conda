@@ -37,7 +37,7 @@ tests:
       include:
         - hipsparse/hipsparse.h
       lib:
-        - libhipsparse${{ dso_ext }}
+        - hipsparse
 
 about:
   repository: https://github.com/ROCm/hipSPARSE
