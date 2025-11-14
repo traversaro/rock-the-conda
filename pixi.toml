@@ -46,6 +46,8 @@ build-composable-kernel-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_AR
 build-composable-kernel = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/composable-kernel", depends-on = ["build-hip", "build-rocm-core"] }
 build-rocrand-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocrand" }
 build-rocrand = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocrand", depends-on = ["build-hip", "build-rocm-core"] }
+build-rocsparse-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocsparse" }
+build-rocsparse = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocsparse", depends-on = ["build-hip", "build-rocm-core", "build-rocprim"] }
 build-miopen-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/miopen-hip" }
 build-miopen = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/miopen-hip", depends-on = ["build-hip", "build-rocblas", "build-composable-kernel", "build-rocrand"] }
 build-packages = { cmd = "echo 'All packages build'", depends-on = ["build-rocm-core", "build-rocm-cmake", "build-rocm-devices-libs", "build-hip", "build-rocm-smi", "build-all-rattler-build-libraries"] }

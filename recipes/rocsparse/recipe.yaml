@@ -1,0 +1,55 @@
+context:
+  name: rocsparse
+  version: "7.0.2"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ROCm/rocSPARSE/archive/refs/tags/rocm-${{ version }}.tar.gz
+  sha256: 26dd7df3c470f877d0f9ab15dccdac1915a3939e2ab9e00a83342c6edf289c8a
+
+build:
+  number: 0
+  skip:
+    - not linux
+    - hip_compiler_version in (None, "None")
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('hip') }}
+    - cmake
+    - ninja
+  host:
+    - rocm-core ${{ version }}.*
+    - rocm-cmake
+    - rocprim
+  run_exports:
+    - ${{ pin_subpackage(name, upper_bound="x.x") }}
+
+tests:
+  - package_contents:
+      include:
+        - rocsparse/rocsparse.h
+      lib:
+        - librocsparse${{ dso_ext }}
+
+about:
+  repository: https://github.com/ROCm/rocSPARSE
+  homepage: https://rocm.docs.amd.com/projects/rocSPARSE/en/latest/
+  license: MIT
+  license_file: LICENSE.md
+  summary: "ROCm SPARSE linear algebra library"
+  description: |
+    rocSPARSE is a library that contains basic linear algebra subroutines for sparse
+    matrices and vectors written in HIP for GPU devices. It is designed to be used
+    from C and C++ code.
+
+extra:
+  recipe-maintainers:
+    - flferretti
+    - conda-forge/rocm-core
