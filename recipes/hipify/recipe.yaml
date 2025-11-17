@@ -1,0 +1,53 @@
+context:
+  name: hipify
+  version: "7.0.2"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ROCm/HIPIFY/archive/refs/tags/rocm-${{ version }}.tar.gz
+  sha256: d6e78b025c2cb36f9470d1ec572adc8abc7f2c79bb9a5e21cf46fabd305c4b9c
+  patches:
+    - fix-llvm-diagnosticoptions.patch
+
+build:
+  number: 0
+  skip:
+    - not linux
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - cmake
+    - ninja
+  host:
+    - rocm-core ${{ version }}.*
+    - llvmdev
+    - clangdev
+  run:
+    - perl
+    - llvm
+
+tests:
+  - script:
+      - hipify-perl --help
+      - hipify-clang --help
+
+about:
+  repository: https://github.com/ROCm/HIPIFY
+  homepage: https://rocm.docs.amd.com/projects/HIPIFY/en/latest/
+  license: MIT
+  license_file: LICENSE.txt
+  summary: "CUDA to HIP source translator (Perl and Clang implementations)"
+  description: |
+    HIPIFY provides tools to convert CUDA code to HIP code.
+    This package includes both hipify-perl (Perl-based translator) and
+    hipify-clang (LLVM/Clang-based translator) for comprehensive CUDA to HIP conversion.
+    Used by RCCL, JAX, and other ROCm tools for porting CUDA applications.
+
+extra:
+  recipe-maintainers:
+    - flferretti
+    - conda-forge/rocm-core
