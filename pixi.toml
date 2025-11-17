@@ -54,7 +54,6 @@ build-hipsparse-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --rec
 build-hipsparse = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipsparse", depends-on = ["build-hip", "build-rocm-core", "build-rocsparse"] }
 build-hipsolver-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipsolver" }
 build-hipsolver = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipsolver", depends-on = ["build-hip", "build-rocm-core", "build-rocsolver", "build-rocblas"] }
-build-hipify-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipify" }
 build-hipify = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipify" }
 build-miopen-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/miopen-hip" }
 build-miopen = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/miopen-hip", depends-on = ["build-hip", "build-rocblas", "build-composable-kernel", "build-rocrand"] }
