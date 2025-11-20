@@ -39,7 +39,7 @@ tests:
       include:
         - rocprofiler-register/rocprofiler-register.h
       lib:
-        - librocprofiler-register
+        - rocprofiler-register
 
 about:
   repository: https://github.com/ROCm/rocprofiler-register
