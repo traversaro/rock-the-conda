@@ -31,6 +31,7 @@ build-rocm-smi-no-deps = { cmd = "conda-build ./recipes/rocm-smi $CONDA_BUILD_AR
 build-rocm-smi = { cmd = "conda-build ./recipes/rocm-smi $CONDA_BUILD_ARGS", depends-on = ["build-rocm-core", "build-rocminfo", "build-rocr-runtime"] }
 build-all-rattler-build-libraries-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes"  }
 build-all-rattler-build-libraries = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes", depends-on = ["build-rocm-core", "build-hip", "build-rocminfo", "build-rocr-runtime", "build-rocm-comgr"] }
+build-rocprim-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocprim"}
 build-rocprim = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocprim", depends-on = ["build-hip", "build-rocm-core"]  }
 build-rocfft-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocfft" }
 build-rocfft = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocfft", depends-on = ["build-hip", "build-rocm-core"]  }
