@@ -1,0 +1,76 @@
+diff --git a/source/lib/rocprofiler-sdk/counters/metrics.hpp b/source/lib/rocprofiler-sdk/counters/metrics.hpp
+index be4ed98c7..197e9d1bd 100644
+--- a/source/lib/rocprofiler-sdk/counters/metrics.hpp
++++ b/source/lib/rocprofiler-sdk/counters/metrics.hpp
+@@ -22,6 +22,9 @@
+
+ #pragma once
+
++// no template named 'shared_ptr' in namespace 'std'
++#include <memory>
++
+ #include <rocprofiler-sdk/fwd.h>
+
+ #include <fmt/core.h>
+diff --git a/source/lib/common/elf_utils.hpp b/source/lib/common/elf_utils.hpp
+index ead9498de..773be97a8 100644
+--- a/source/lib/common/elf_utils.hpp
++++ b/source/lib/common/elf_utils.hpp
+@@ -22,6 +22,14 @@
+
+ #pragma once
+
++// horrible, but elfio < 3.12 uses bare uint*_t without including the C integer headers.
++// Pull the fixed-width integer types into the global namespace before
++// including elfio so uint16_t/32_t/64_t are defined.
++#include <cstdint>
++using std::uint16_t;
++using std::uint32_t;
++using std::uint64_t;
++
+ #include <elfio/elfio.hpp>
+
+ #include <cstdint>
+diff --git a/source/lib/common/elf_utils.cpp b/source/lib/common/elf_utils.cpp
+index 6361d96ee..5df525825 100644
+--- a/source/lib/common/elf_utils.cpp
++++ b/source/lib/common/elf_utils.cpp
+@@ -25,6 +25,7 @@
+ #include <rocprofiler-sdk/cxx/utility.hpp>
+
+ #include <fmt/format.h>
++#include <fmt/ranges.h>
+ #include <elfio/elfio.hpp>
+
+ #include <sys/stat.h>
+@@ -68,8 +69,18 @@ DynamicEntry::DynamicEntry(unsigned int _idx, const accessor_type& _accessor)
+ RelocationEntry::RelocationEntry(unsigned int _idx, const accessor_type& _accessor)
+ : index{_idx}
+ {
+-    if(!_accessor.get_entry(_idx, offset, symbol, type, addend))
++    // ELFIO wants unsigned char for type field, while rocprofiler-sdf passes an Elf_Word&
++    // This can be removed with elfio >= v3.12
++    unsigned char reloc_type = 0;
++
++    if(!_accessor.get_entry(_idx, offset, symbol, reloc_type, addend))
++    {
+         ROCP_WARNING << "ELFIO::relocation_section_accessor::get_entry failed for symbol " << _idx;
++        return;
++    }
++
++    // store as wider integer type
++    type = static_cast<ELFIO::Elf_Word>(reloc_type);
+ }
+
+ ElfInfo::ElfInfo(std::string _fname)
+diff --git a/source/lib/common/logging.cpp b/source/lib/common/logging.cpp
+index 6c07322b0..9782b74fb 100644
+--- a/source/lib/common/logging.cpp
++++ b/source/lib/common/logging.cpp
+@@ -25,6 +25,7 @@
+ #include "lib/common/filesystem.hpp"
+
+ #include <fmt/format.h>
++#include <fmt/ranges.h> // for fmt::join
+ #include <glog/logging.h>
+ #include <glog/vlog_is_on.h>

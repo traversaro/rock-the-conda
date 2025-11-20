@@ -1,0 +1,32 @@
+diff --git a/cmake/rocprofiler_config_interfaces.cmake b/cmake/rocprofiler_config_interfaces.cmake
+index 4d67246bd..b2b18bbe1 100644
+--- a/cmake/rocprofiler_config_interfaces.cmake
++++ b/cmake/rocprofiler_config_interfaces.cmake
+@@ -1,6 +1,27 @@
+ # include guard
+ include_guard(DIRECTORY)
+
++# PTL
++if(NOT TARGET PTL::ptl-static)
++    # Find the library and headers from the active toolchain / prefix
++    find_library(PTL_LIB ptl REQUIRED)
++    find_path(PTL_INCLUDE_DIR PTL/PTL.hh REQUIRED)
++
++    add_library(PTL::ptl-static UNKNOWN IMPORTED)
++    set_target_properties(PTL::ptl-static PROPERTIES
++        IMPORTED_LOCATION "${PTL_LIB}"
++        INTERFACE_INCLUDE_DIRECTORIES "${PTL_INCLUDE_DIR}"
++    )
++endif()
++
++# ELFIO
++if(NOT TARGET elfio::elfio)
++    find_path(ELFIO_INCLUDE_DIR elfio/elfio.hpp REQUIRED)
++    add_library(elfio::elfio INTERFACE IMPORTED)
++    set_target_properties(elfio::elfio PROPERTIES
++        INTERFACE_INCLUDE_DIRECTORIES "${ELFIO_INCLUDE_DIR}"
++    )
++endif()
+ include(rocprofiler_config_nolink_target)
+
+ # ########################################################################################
