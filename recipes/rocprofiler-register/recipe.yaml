@@ -1,0 +1,58 @@
+context:
+  name: rocprofiler-register
+  version: "7.0.2"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ROCm/rocprofiler-register/archive/refs/tags/rocm-${{ version }}.tar.gz
+  sha256: c76ffb35c510f8751d6d2db3a6366952ea7a76499556e9d64fdf8102a7a3ca5b
+  patches:
+    - 0001-fix-fmt-find-package-order.patch
+    - 0002-disable-cpackaging.patch
+
+build:
+  number: 0
+  skip:
+    - not linux
+    - hip_compiler_version in (None, "None")
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('hip') }}
+    - cmake
+    - ninja
+    - python
+  host:
+    - rocm-core ${{ version }}.*
+    - rocr-runtime
+    - glog
+    - fmt
+
+tests:
+  - package_contents:
+      include:
+        - rocprofiler-register/rocprofiler-register.h
+      lib:
+        - librocprofiler-register
+
+about:
+  repository: https://github.com/ROCm/rocprofiler-register
+  homepage: https://rocm.docs.amd.com/projects/rocprofiler-register/en/latest/
+  license: MIT
+  license_file: LICENSE
+  summary: "ROCm profiler SDK for GPU profiling and tracing"
+  description: |
+    rocprofiler-register is AMD's tooling infrastructure providing a hardware-specific
+    low-level performance analysis interface for profiling and tracing GPU compute
+    applications.
+
+extra:
+  recipe-maintainers:
+    - flferretti
+    - conda-forge/rocm-core

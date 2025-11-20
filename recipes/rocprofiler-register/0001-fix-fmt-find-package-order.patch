@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2fdf5c4..108cc73 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -100,6 +100,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR
+ enable_testing()
+ include(CTest)
+
++find_package(fmt CONFIG REQUIRED)
++find_package(glog CONFIG REQUIRED)
++
+ add_subdirectory(external)
+ add_subdirectory(source)

@@ -55,6 +55,10 @@ build-hipsparse = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir 
 build-hipsolver-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipsolver" }
 build-hipsolver = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipsolver", depends-on = ["build-hip", "build-rocm-core", "build-rocsolver", "build-rocblas"] }
 build-hipify = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipify" }
+build-rocprofiler-sdk-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocprofiler-sdk" }
+build-rocprofiler-sdk = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocprofiler-sdk", depends-on = ["build-hip", "build-rocm-core"] }
+build-rocprofiler-register-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocprofiler-register" }
+build-rocprofiler-register = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocprofiler-register", depends-on = ["build-hip", "build-rocm-core", "build-rocr-runtime"] }
 build-rccl-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rccl" }
 build-rccl = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rccl", depends-on = ["build-hip", "build-rocm-core", "build-hipify"] }
 build-miopen-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/miopen-hip" }
