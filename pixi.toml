@@ -42,6 +42,7 @@ build-rocsolver-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --rec
 build-hipblas-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipblas"  }
 build-hipblaslt-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/hipblaslt"  }
 build-llama-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/llama.cpp"  }
+build-perfetto = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/perfetto" }
 build-composable-kernel-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/composable-kernel" }
 build-composable-kernel = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/composable-kernel", depends-on = ["build-hip", "build-rocm-core"] }
 build-rocrand-no-deps = { cmd = "rattler-build build $RATTLER_BUILD_ARGS --recipe-dir ./recipes/rocrand" }
