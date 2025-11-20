@@ -31,7 +31,7 @@ source:
       - hipcc-path.diff
 
 build:
-  number: 0
+  number: 1
   skip: true  # [not linux]
 
 requirements:
@@ -102,7 +102,7 @@ outputs:
       - bin/roc-obj
       - bin/roc-obj-extract
       - bin/roc-obj-ls
-      - include/hip/amd_detail/*.h
+      - include/hip/amd_detail/*
       - include/hip/*.h
       - lib/cmake/hip/FindHIP.cmake
       - lib/cmake/hip/FindHIP/*.cmake
