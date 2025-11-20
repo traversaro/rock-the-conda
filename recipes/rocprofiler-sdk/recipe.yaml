@@ -55,7 +55,7 @@ tests:
       include:
         - rocprofiler-sdk
       lib:
-        - librocprofiler-sdk.so
+        - rocprofiler-sdk
 
 about:
   repository: https://github.com/ROCm/rocprofiler-sdk
