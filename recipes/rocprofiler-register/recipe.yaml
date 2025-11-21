@@ -27,7 +27,7 @@ requirements:
     - ${{ compiler('hip') }}
     - cmake
     - ninja
-    - python
+    - python ${{ python_min }}.*
   host:
     - rocm-core ${{ version }}.*
     - rocr-runtime

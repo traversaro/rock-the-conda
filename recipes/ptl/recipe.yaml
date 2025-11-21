@@ -34,7 +34,7 @@ tests:
       include:
         - PTL/PTL.hh
       lib:
-        - libptl.a
+        - ptl
 
 about:
   repository: https://github.com/jrmadsen/PTL

@@ -22,7 +22,7 @@ requirements:
     - ${{ compiler('cxx') }}
     - meson
     - ninja
-    - python
+    - python ${{ python_min }}.*
     - pkg-config
 
 tests:
