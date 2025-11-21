@@ -30,7 +30,7 @@ tests:
       include:
         - gotcha/gotcha.h
       lib:
-        - libgotcha
+        - gotcha
 
 about:
   repository: https://github.com/LLNL/GOTCHA
