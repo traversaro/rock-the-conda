@@ -74,3 +74,18 @@ index 6c07322b0..9782b74fb 100644
 +#include <fmt/ranges.h> // for fmt::join
  #include <glog/logging.h>
  #include <glog/vlog_is_on.h>
+
+diff --git a/source/lib/rocprofiler-sdk/counters/metrics.cpp b/source/lib/rocprofiler-sdk/counters/metrics.cpp
+index 78d323361..4ac1c85d7 100644
+--- a/source/lib/rocprofiler-sdk/counters/metrics.cpp
++++ b/source/lib/rocprofiler-sdk/counters/metrics.cpp
+@@ -22,6 +22,9 @@
+
+ #include "metrics.hpp"
+
++// Missing fstream
++#include <fstream>
++
+ #include "lib/common/filesystem.hpp"
+ #include "lib/common/logging.hpp"
+ #include "lib/common/static_object.hpp"
