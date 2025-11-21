@@ -118,3 +118,16 @@ index b052ec51c..e0e007548 100644
  #include "lib/common/environment.hpp"
  #include "lib/common/filesystem.hpp"
  #include "lib/common/logging.hpp"
+diff --git a/source/lib/rocprofiler-sdk-tool/tool.cpp b/source/lib/rocprofiler-sdk-tool/tool.cpp
+index 7afcbd9f7..06eb77f17 100644
+--- a/source/lib/rocprofiler-sdk-tool/tool.cpp
++++ b/source/lib/rocprofiler-sdk-tool/tool.cpp
+@@ -77,6 +77,8 @@
+ #include <rocprofiler-sdk/cxx/operators.hpp>
+
+ #include <fmt/core.h>
++#include <fmt/format.h>
++#include <fmt/ranges.h>
+
+ #include <time.h>
+ #include <unistd.h>
