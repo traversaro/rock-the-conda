@@ -1,0 +1,88 @@
+context:
+  name: rocprofiler-sdk
+  version: "7.0.2"
+
+recipe:
+  name: rocprofiler-split
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ROCm/rocprofiler-sdk/archive/refs/tags/rocm-${{ version }}.tar.gz
+  sha256: 2f5e9bbddf657b7a78f7cd4afe1984c3a5518af0bc7babace1e3d29dcfcde52a
+  patches:
+    # - 0001-disable-building-submodules.patch
+    - 0002-disable-cpackaging.patch
+    # - 0003-add-ptl-and-elfio-imported-targets.patch
+    # - 0004-add-missing-headers.patch
+    # - 0005-ptl-thread-pool-config.patch
+    # - 0006-update-cereal-version.patch
+
+outputs:
+  - package:
+      name: rocprofiler-cereal
+      version: ${{ version }}
+    build:
+      script: build_cereal.sh
+    requirements:
+      run: []
+
+  - package:
+      name: rocprofiler-ptl
+      version: ${{ version }}
+    build:
+      script: build_ptl.sh
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - cmake
+        - ninja
+
+  - package:
+      name: rocprofiler-perfetto
+      version: ${{ version }}
+    build:
+      script: build_perfetto.sh
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+
+  - package:
+      name: rocprofiler-sdk
+      version: ${{ version }}
+    build:
+      script: build_rocprofiler.sh
+    requirements:
+      build:
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+        - ${{ compiler('hip') }}
+        - cmake
+        - ninja
+      host:
+        - rocprofiler-cereal
+        - rocprofiler-ptl
+        - rocprofiler-perfetto
+        - yaml-cpp
+        - nlohmann_json
+        - gotcha
+        - fmt
+        - glog
+        - elfio
+        - tbb-devel
+        - perfetto
+
+about:
+  repository: https://github.com/ROCm/rocprofiler-sdk
+  homepage: https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/
+  license: MIT
+  license_file: LICENSE
+  summary: "ROCm profiler SDK for GPU profiling and tracing"
+  description: |
+    ROCprofiler-SDK is AMD's tooling infrastructure providing a hardware-specific
+    low-level performance analysis interface for profiling and tracing GPU compute
+    applications.
+
+extra:
+  recipe-maintainers:
+    - flferretti
+    - conda-forge/rocm-core

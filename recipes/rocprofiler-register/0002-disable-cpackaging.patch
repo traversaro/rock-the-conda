@@ -1,0 +1,11 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2fdf5c4..9496254 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -113,6 +113,4 @@ if(ROCPROFILER_REGISTER_BUILD_SAMPLES)
+     add_subdirectory(samples)
+ endif()
+
+-include(rocprofiler_register_config_packaging)
+-
+ rocprofiler_register_print_features()

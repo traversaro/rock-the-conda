@@ -1,0 +1,36 @@
+# `Config` is not longer an aggregate, so designated initializers cannot be used.
+# This avoids to build PTL from the `rocprofiler` branch.
+diff --git a/source/lib/rocprofiler-sdk/internal_threading.cpp b/source/lib/rocprofiler-sdk/internal_threading.cpp
+index 80437953c..c67214dac 100644
+--- a/source/lib/rocprofiler-sdk/internal_threading.cpp
++++ b/source/lib/rocprofiler-sdk/internal_threading.cpp
+@@ -59,16 +59,20 @@ auto affinity_functor(intmax_t)
+ auto
+ get_thread_pool_config()
+ {
+-    return thread_pool_config_t{.init         = true,
+-                                .use_tbb      = false,
+-                                .use_affinity = false,
+-                                .verbose      = 0,
+-                                .priority     = 0,
+-                                .pool_size    = 1,
+-                                .task_queue   = nullptr,
+-                                .set_affinity = affinity_functor,
+-                                .initializer  = []() {},
+-                                .finalizer    = []() {}};
++    thread_pool_config_t cfg{};  // default construct
++
++    cfg.init         = true;
++    cfg.use_tbb      = false;
++    cfg.use_affinity = false;
++    cfg.verbose      = 0;
++    cfg.priority     = 0;
++    cfg.pool_size    = 1;
++    cfg.task_queue   = nullptr;
++    cfg.set_affinity = affinity_functor;
++    cfg.initializer  = []() {};
++    cfg.finalizer    = []() {};
++
++    return cfg;
+ }
+ }  // namespace
