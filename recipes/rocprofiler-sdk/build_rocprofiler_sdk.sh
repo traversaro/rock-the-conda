@@ -2,6 +2,9 @@
 
 set -xeuo pipefail
 
+# Create symlink for hip headers
+ln -s $BUILD_PREFIX/include/hip $PREFIX/include/hip
+
 cmake -S . -B build -G Ninja \
     ${CMAKE_ARGS} \
     -DROCPROFILER_BUILD_TESTS=OFF \

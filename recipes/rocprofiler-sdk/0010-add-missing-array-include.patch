@@ -1,0 +1,12 @@
+diff --git a/source/lib/att-tool/att_lib_wrapper.hpp b/source/lib/att-tool/att_lib_wrapper.hpp
+index abc123..def456 100644
+--- a/source/lib/att-tool/att_lib_wrapper.hpp
++++ b/source/lib/att-tool/att_lib_wrapper.hpp
+@@ -23,6 +23,7 @@
+ #pragma once
+ 
+ #include <rocprofiler-sdk/version.h>
++#include <array>
+ #include <memory>
+ #include <stdint.h>
+ 
