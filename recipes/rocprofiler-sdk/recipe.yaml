@@ -103,6 +103,7 @@ outputs:
         - rocprofiler-perfetto
         - rocprofiler-nlohmann-json
         - rocprofiler-register
+        - aqlprofile
         - fmt ==10.2.1
         - yaml-cpp
         - gotcha
