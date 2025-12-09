@@ -32,7 +32,7 @@ requirements:
     - rocm-core ${{ version }}.*
     - rocr-runtime
     - glog
-    - fmt
+    - fmt ==10.2.1
 
 tests:
   - package_contents:
