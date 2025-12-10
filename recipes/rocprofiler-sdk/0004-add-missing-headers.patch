@@ -1,0 +1,57 @@
+diff --git a/source/lib/rocprofiler-sdk/counters/metrics.hpp b/source/lib/rocprofiler-sdk/counters/metrics.hpp
+index be4ed98c7..197e9d1bd 100644
+--- a/source/lib/rocprofiler-sdk/counters/metrics.hpp
++++ b/source/lib/rocprofiler-sdk/counters/metrics.hpp
+@@ -22,6 +22,9 @@
+
+ #pragma once
+
++// no template named 'shared_ptr' in namespace 'std'
++#include <memory>
++
+ #include <rocprofiler-sdk/fwd.h>
+
+ #include <fmt/core.h>
+diff --git a/source/lib/rocprofiler-sdk/counters/metrics.cpp b/source/lib/rocprofiler-sdk/counters/metrics.cpp
+index 78d323361..4ac1c85d7 100644
+--- a/source/lib/rocprofiler-sdk/counters/metrics.cpp
++++ b/source/lib/rocprofiler-sdk/counters/metrics.cpp
+@@ -22,6 +22,9 @@
+
+ #include "metrics.hpp"
+
++// Missing fstream
++#include <fstream>
++
+ #include "lib/common/filesystem.hpp"
+ #include "lib/common/logging.hpp"
+ #include "lib/common/static_object.hpp"
+diff --git a/source/lib/att-tool/att_lib_wrapper.hpp b/source/lib/att-tool/att_lib_wrapper.hpp
+index b5a8dcb49..c498a1ee8 100644
+--- a/source/lib/att-tool/att_lib_wrapper.hpp
++++ b/source/lib/att-tool/att_lib_wrapper.hpp
+@@ -33,6 +33,10 @@
+ #include <map>
+ #include <vector>
+
++// Missing array and memory
++#include <array>
++#include <memory>
++
+ namespace rocprofiler
+ {
+ namespace att_wrapper
+diff --git a/source/lib/rocprofiler-sdk-rocpd/sql.cpp b/source/lib/rocprofiler-sdk-rocpd/sql.cpp
+index b052ec51c..e0e007548 100644
+--- a/source/lib/rocprofiler-sdk-rocpd/sql.cpp
++++ b/source/lib/rocprofiler-sdk-rocpd/sql.cpp
+@@ -22,6 +22,9 @@
+
+ #define _GNU_SOURCE 1
+
++// Missing fstream
++#include <fstream>
++
+ #include "lib/common/environment.hpp"
+ #include "lib/common/filesystem.hpp"
+ #include "lib/common/logging.hpp"

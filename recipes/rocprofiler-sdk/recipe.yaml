@@ -1,0 +1,55 @@
+context:
+  version: "7.0.2"
+
+package:
+  name: rocprofiler-sdk
+  version: ${{ version }}
+
+source:
+  git: https://github.com/ROCm/rocprofiler-sdk.git
+  tag: rocm-${{ version }}
+  patches:
+    - 0001-disable-yaml-cpp-and-json.patch
+    - 0002-disable-cpackaging.patch
+    - 0003-add-rocprofiler-register-target.patch
+    - 0004-add-missing-headers.patch
+
+build:
+  number: 0
+  skip:
+    - not linux
+    - hip_compiler_version in (None, "None")
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('hip') }}
+    - cmake
+    - ninja
+    - git
+  host:
+    - rocprofiler-register
+    - aqlprofile
+    - fmt ==10.2.1
+    - yaml-cpp
+    - gotcha
+    - glog
+    - elfio
+    - tbb-devel
+
+about:
+  repository: https://github.com/ROCm/rocprofiler-sdk
+  homepage: https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/
+  license: MIT
+  license_file: LICENSE
+  summary: "ROCm profiler SDK for GPU profiling and tracing"
+  description: |
+    ROCprofiler-SDK is AMD's tooling infrastructure providing a hardware-specific
+    low-level performance analysis interface for profiling and tracing GPU compute
+    applications.
+
+extra:
+  recipe-maintainers:
+    - flferretti
+    - conda-forge/rocm-core

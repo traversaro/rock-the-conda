@@ -1,0 +1,27 @@
+diff --git a/source/lib/rocprofiler-sdk-roctx/CMakeLists.txt b/source/lib/rocprofiler-sdk-roctx/CMakeLists.txt
+index 6fa8978ce..ad326e213 100644
+--- a/source/lib/rocprofiler-sdk-roctx/CMakeLists.txt
++++ b/source/lib/rocprofiler-sdk-roctx/CMakeLists.txt
+@@ -3,7 +3,21 @@
+ #
+ set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME "roctx")
+ 
+-find_package(rocprofiler-register REQUIRED)
++# Find rocprofiler-register library and headers from conda environment
++if(NOT TARGET rocprofiler-register::rocprofiler-register)
++    find_path(ROCPROFILER_REGISTER_INCLUDE_DIR
++        NAMES rocprofiler-register/rocprofiler-register.h
++        REQUIRED)
++
++    find_library(ROCPROFILER_REGISTER_LIBRARY
++        NAMES rocprofiler-register
++        REQUIRED)
++
++    add_library(rocprofiler-register::rocprofiler-register SHARED IMPORTED)
++    set_target_properties(rocprofiler-register::rocprofiler-register PROPERTIES
++        IMPORTED_LOCATION "${ROCPROFILER_REGISTER_LIBRARY}"
++        INTERFACE_INCLUDE_DIRECTORIES "${ROCPROFILER_REGISTER_INCLUDE_DIR}")
++endif()
+ 
+ add_library(rocprofiler-sdk-roctx-shared-library SHARED)
+ add_library(rocprofiler-sdk::rocprofiler-sdk-roctx-shared-library ALIAS
