@@ -1,116 +1,42 @@
 context:
-  name: rocprofiler-sdk
   version: "7.0.2"
 
-recipe:
-  name: rocprofiler-split
+package:
+  name: rocprofiler-sdk
   version: ${{ version }}
 
 source:
-  - url: https://github.com/ROCm/rocprofiler-sdk/archive/refs/tags/rocm-${{ version }}.tar.gz
-    sha256: 2f5e9bbddf657b7a78f7cd4afe1984c3a5518af0bc7babace1e3d29dcfcde52a
-    patches:
-      - 0001-disable-yaml-cpp-and-json.patch
-      - 0002-disable-cpackaging.patch
-      - 0003-add-rocprofiler-register-target.patch
-      - 0004-add-missing-headers.patch
-  # The commit hash of vendored packages matches
-  # the submodules at https://github.com/ROCm/rocprofiler-sdk/tree/amd-staging_deprecated/external
-  # PTL
-  - url: https://github.com/jrmadsen/PTL/archive/48df41625430d27ce43cf197fd467a8dda87cb45.tar.gz
-    sha256: 817af2307fc4b776fdf5984079d4d2631cf2c219ba1963502dd6fb41cb6b77a4
-    target_directory: external/ptl
-  # Cereal
-  - url: https://github.com/USCiLab/cereal/archive/e736e75d9d8cd4cc01614f21097f185dc2c6a6bc.tar.gz
-    sha256: 62c6775d84f539512bbbb7d89570fd83077ce087d70c3338a5ccd0949445f7f4
-    target_directory: external/cereal
-  # Perfetto
-  - url: https://github.com/google/perfetto/archive/eb5ef24c58d13cec289d733d03f0f3f0ed321b12.tar.gz
-    sha256: 90cbd8e4276ca43b9c3e5166ff372bfd8a55affab80169b738f87044e3c48dd2
-    target_directory: external/perfetto
-  # ELFIO
-  - url: https://github.com/serge1/ELFIO/archive/refs/tags/Release_3.12.tar.gz
-    sha256: e4ebc9ce3d6916461bc3e7765bb45e6210f0a9b93978bf91e59b05388c024489
-    target_directory: external/elfio
-  # JSON
-  - url: https://github.com/nlohmann/json/archive/e41905fcb0938a7502d25ea5242c6b41396e21b0.tar.gz
-    sha256: 5d2d2b89e359a8185ef4cd483c3c7a8fb05702ff548b8bd7a61a049304e5a571
-    target_directory: external/json
+  git: https://github.com/ROCm/rocprofiler-sdk.git
+  tag: rocm-${{ version }}
+  patches:
+    - 0001-disable-yaml-cpp-and-json.patch
+    - 0002-disable-cpackaging.patch
+    - 0003-add-rocprofiler-register-target.patch
+    - 0004-add-missing-headers.patch
 
-outputs:
-  - package:
-      name: rocprofiler-cereal
-      version: ${{ version }}
-    build:
-      script: build_cereal.sh
-      skip:
-        - not linux
-    requirements:
-      run: []
+build:
+  number: 0
+  skip:
+    - not linux
+    - hip_compiler_version in (None, "None")
 
-  - package:
-      name: rocprofiler-ptl
-      version: ${{ version }}
-    build:
-      script: build_ptl.sh
-      skip:
-        - not linux
-    requirements:
-      build:
-        - ${{ compiler('cxx') }}
-        - cmake
-        - ninja
-
-  - package:
-      name: rocprofiler-perfetto
-      version: ${{ version }}
-    build:
-      script: build_perfetto.sh
-      skip:
-        - not linux
-    requirements:
-      build:
-        - ${{ compiler('cxx') }}
-
-  - package:
-      name: rocprofiler-nlohmann-json
-      version: ${{ version }}
-    build:
-      script: build_nlohmann_json.sh
-      skip:
-        - not linux
-    requirements:
-      run: []
-
-  - package:
-      name: rocprofiler-sdk
-      version: ${{ version }}
-    build:
-      script: build_rocprofiler_sdk.sh
-      skip:
-        - not linux
-        - hip_compiler_version in (None, "None")
-    requirements:
-      build:
-        - ${{ compiler('c') }}
-        - ${{ compiler('cxx') }}
-        - ${{ compiler('hip') }}
-        - cmake
-        - ninja
-      host:
-        - rocprofiler-cereal
-        - rocprofiler-ptl
-        - rocprofiler-perfetto
-        - rocprofiler-nlohmann-json
-        - rocprofiler-register
-        - aqlprofile
-        - fmt ==10.2.1
-        - yaml-cpp
-        - gotcha
-        - glog
-        - elfio
-        - tbb-devel
-        - perfetto
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('hip') }}
+    - cmake
+    - ninja
+    - git
+  host:
+    - rocprofiler-register
+    - aqlprofile
+    - fmt ==10.2.1
+    - yaml-cpp
+    - gotcha
+    - glog
+    - elfio
+    - tbb-devel
 
 about:
   repository: https://github.com/ROCm/rocprofiler-sdk
