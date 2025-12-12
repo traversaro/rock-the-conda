@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a6b1d0cd7241..7d4b59283276 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -99,8 +99,8 @@ else()
+ endif()
+ 
+ # Pointers to external llvm build, needed here to set up rpath project-wide
+-set(LLVM_EXTERNAL_BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/external/llvm-project")
+-set(LLVM_EXTERNAL_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/llvm-project")
++set(LLVM_EXTERNAL_BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}")
++set(LLVM_EXTERNAL_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+ set(LLVM_EXTERNAL_BIN_DIR "${LLVM_EXTERNAL_BUILD_DIR}/llvm/bin")
+ set(LLVM_EXTERNAL_LIB_DIR "${LLVM_EXTERNAL_BUILD_DIR}/llvm/lib")
+ 
